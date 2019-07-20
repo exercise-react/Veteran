@@ -1,6 +1,5 @@
 import React, {lazy, Suspense} from 'react';
 import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
-// import { Router } from "react-router";
 
 
 const Home = lazy(() => import('./Home'));
@@ -12,8 +11,8 @@ const Main = () => (
         <Router>
             <Switch>
                 <Suspense fallback={<div> ...Loading </div>}>
-                    <Route path='/home' component={Home}/>
-                    <Route path='/veteran-information' component={VeteranInformation}/>
+                    <Route exact path='/main' component={VeteranInformation}/>
+                    <Route exact path='/logout' component={Home}/>
                 </Suspense>
             </Switch>
         </Router>
@@ -22,12 +21,3 @@ const Main = () => (
 
 export default Main;
 
-/*
-<Switch>
-    <Suspense fallback={<div> ...Loading </div>}>
-        <Route path='/home' component={Home}/>
-        <Route path='/veteran-information' component={VeteranInformation}/>
-    </Suspense>
-</Switch>
-
-*/
