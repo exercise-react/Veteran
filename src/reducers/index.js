@@ -1,21 +1,31 @@
 const InitialState = {
-    list: null,
+    auth: null,
+    selectClient: false,
+    edit: false,
+    backup: null,
+    navigation: null,
+    clientForm: null,
+    clientData: null,
 };
 
 export default function rootReducer(state = InitialState, action) {
-    console.log('rootReducer state=', state);
     switch (action.type) {
-        case 'CHOOSE_BREED':
-            return {...state, breedName: action.payload};
-        case 'ADD_LIST_DOG':
-            console.log('пришел диспатч. Меняем state в store');
-            return {...state, list: action.payload};
-        case 'ADD_RANDOM_IMAGE_BREED':
-            return {...state, RandomImageBreed: action.payload};
-        case 'LOAD_IMAGE_BREED':
-            return {...state, ListLoadImageBreed: action.payload};
-        case 'LOAD_LIST_SUB_BREED':
-            return {...state, loadListSubBreed: action.payload};
+        case 'LOAD_DATA_COMPLETE':
+        const {navigation, clientForm, clientData} = action.payload;
+            return {...state, navigation, clientForm, clientData};
+        case 'SELECT_CLIENT':
+            return {...state, selectClient: action.payload};
+        case 'ADD_CLIENT':
+            const newClient = action.payload;
+            return {...state, clientData: [...state.clientData, newClient]};
+        case 'EDIT_SELECTED_CLIENT':
+            const newClientData = action.payload;
+            return {...state, backup: state.clientForm, edit: true, clientData: newClientData};
+        case 'CANCEL_EDIT_CLIENT':
+            return {...state, clientData: state.backup, backup: null, edit: false};
+        case 'SAVE_COMPLETE_CLIENT':
+            return {...state, backup: null, edit: false};
+
         default:
             return state;
     }

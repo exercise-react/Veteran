@@ -1,8 +1,8 @@
 import React from 'react';
-import {data} from "./data";
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import {data} from "../components/data";
+import {makeStyles} from '@material-ui/core/styles/index';
+import TextField from "@material-ui/core/TextField/index";
+import Button from "@material-ui/core/Button/index";
 
 
 const useStyles = makeStyles(theme => ({

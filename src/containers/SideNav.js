@@ -1,18 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Collapse from '@material-ui/core/Collapse';
-import ListItemText from '@material-ui/core/ListItemText';
+import {withStyles} from '@material-ui/core/styles/index';
+import List from '@material-ui/core/List/index';
+import ListItem from '@material-ui/core/ListItem/index';
+import Collapse from '@material-ui/core/Collapse/index';
+import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
-import {data} from './data';
-import { createMuiTheme } from '@material-ui/core/styles';
+import {data} from '../components/data';
+import {createMuiTheme} from '@material-ui/core/styles/index';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
+import connect from "react-redux/es/connect/connect";
+import loadData from '../services/loadData';
 
+
+const url = 'http://localhost:3000';
 
 const theme = createMuiTheme({
     palette: {
@@ -48,24 +52,31 @@ ListItemLink.propTypes = {
 const styles = theme => {
     console.warn('theme', theme)
     return ({
-    root: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: 260,
-    },
-    lists: {
-        backgroundColor: theme.palette.background.paper,
-        marginTop: theme.spacing(1),
-    },
-    nested: {
-        paddingLeft: theme.spacing(4),
-    },
-})};
+        root: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: 260,
+        },
+        lists: {
+            backgroundColor: theme.palette.background.paper,
+            marginTop: theme.spacing(1),
+        },
+        nested: {
+            paddingLeft: theme.spacing(4),
+        },
+    })
+};
 
 class SideNav extends React.Component {
-    state = {
-        open: true,
-    };
+
+    constructor(props) {
+        super(props);
+        this.state = {open: true};
+    }
+
+    componentDidMount() {
+        this.loadDataAction(url);
+    }
 
     handleClick = () => {
         this.setState(state => ({open: !state.open}));
@@ -140,4 +151,15 @@ SideNav.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(SideNav);
+const mapDispatchToProps = dispatch => ({
+    loadDataAction: anyUrl => dispatch(loadData(anyUrl))
+});
+
+const mapStateToProps = state => ({
+    navigation: state.navigation,
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(SideNav));

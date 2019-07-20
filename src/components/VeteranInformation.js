@@ -1,6 +1,6 @@
 import React from 'react';
-import ListClients from '../components/ListClients';
-import ClientForm from '../components/ClientForm';
+import ListClients from '../containers/ListClients';
+import ClientForm from '../containers/ClientForm';
 
 const VeteranInformation = () => (
     <>
