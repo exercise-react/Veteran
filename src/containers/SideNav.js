@@ -12,11 +12,11 @@ import {data} from '../components/data';
 import {createMuiTheme} from '@material-ui/core/styles/index';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';
-import connect from "react-redux/es/connect/connect";
+import {connect} from 'react-redux';
 import loadData from '../services/loadData';
 
 
-const url = 'http://localhost:3000';
+const url = 'http://localhost:3000/navigation';
 
 const theme = createMuiTheme({
     palette: {
@@ -72,10 +72,22 @@ class SideNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {open: true};
+        this.loadDataAction = props.loadDataAction;
+
     }
 
     componentDidMount() {
         this.loadDataAction(url);
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.props !== nextProps) {
+            return true;
+        }
+        if (this.state !== nextState) {
+            return true;
+        }
+        return false;
     }
 
     handleClick = () => {
@@ -83,15 +95,21 @@ class SideNav extends React.Component {
     };
 
     render() {
-        const breadcrumbNameMaping = data
-        && 'navigation' in data
-        && Array.isArray(data.navigation)
-        && data.navigation.length > 0
-            ? data.navigation
+        const {
+            navigation
+        } = this.props;
+
+        if (!navigation) {
+            return <p>Loading...</p>;
+        }
+
+        const navigationMap = Array.isArray(navigation)
+            && navigation.length > 0
+            ? navigation
             : [];
 
         function MapStructure(props) {
-            const nodes = props.breadcrumbNameMaping;
+            const nodes = props.navigationMap;
             if (nodes) {
                 return nodes.map(node => {
                     if ('subitems' in node
@@ -139,7 +157,7 @@ class SideNav extends React.Component {
             <div className={classes.root}>
                 <nav className={classes.lists} aria-label="Mailbox folders">
                     <List>
-                        <MapStructure breadcrumbNameMaping={breadcrumbNameMaping}/>
+                        <MapStructure navigationMap={navigationMap}/>
                     </List>
                 </nav>
             </div>
@@ -152,7 +170,7 @@ SideNav.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-    loadDataAction: anyUrl => dispatch(loadData(anyUrl))
+    loadDataAction: anyUrl => dispatch(loadData(anyUrl, 'LOAD_DATA_NAVIGATION_COMPLETE'))
 });
 
 const mapStateToProps = state => ({

@@ -10,9 +10,12 @@ const InitialState = {
 
 export default function rootReducer(state = InitialState, action) {
     switch (action.type) {
-        case 'LOAD_DATA_COMPLETE':
-        const {navigation, clientForm, clientData} = action.payload;
-            return {...state, navigation, clientForm, clientData};
+        case 'LOAD_DATA_NAVIGATION_COMPLETE':
+            return {...state, navigation: action.payload};
+        case 'LOAD_DATA_CLIENT_FORM_COMPLETE':
+            return {...state,  clientForm: action.payload};
+        case 'LOAD_CLIENT_DATA_COMPLETE':
+            return {...state, clientData: action.payload};
         case 'SELECT_CLIENT':
             return {...state, selectClient: action.payload};
         case 'ADD_CLIENT':

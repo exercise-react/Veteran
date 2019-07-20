@@ -1,19 +1,20 @@
-export default function loadData(url) {
+export default function loadData(url, action) {
     return (dispatch) => {
+        console.warn('loadData url', url);
         fetch(url)
             .then((response) => {
                 if (response.status !== 200) {
-                    console.log(`Looks like there was a problem. Status Code: ${
+                    console.warn(`Looks like there was a problem. Status Code: ${
                         response.status}`);
                     return;
                 }
                 response.json().then((data) => {
-                    console.log('loadData загрузил и отправляет dispatch', Object.entries(data.message));
-                    dispatch({type: 'ADD_LIST_DOG', payload: Object.entries(data.message)});
+                    console.warn('loadData загрузил и отправляет dispatch', data);
+                    dispatch({type: action, payload: data});
                 });
             })
             .catch((err) => {
-                console.log('Fetch Error :-S', err);
+                console.warn('Fetch Error :-S', err);
             });
     };
 }
