@@ -4,7 +4,7 @@ import {Switch, Route, BrowserRouter as Router} from 'react-router-dom';
 
 const Home = lazy(() => import('./Home'));
 
-const VeteranInformation = lazy(() => import('./VeteranInformation'));
+const VeteranInformation = lazy(() => import('../containers/VeteranInformation'));
 
 const Main = () => (
     <main>

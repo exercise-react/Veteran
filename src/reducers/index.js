@@ -1,6 +1,9 @@
 const InitialState = {
     auth: null,
-    selectClient: false,
+    selectClient: {
+        selectClientID: null,
+        selectClientData: null,
+    },
     edit: false,
     backup: null,
     navigation: null,
@@ -17,7 +20,12 @@ export default function rootReducer(state = InitialState, action) {
         case 'LOAD_CLIENT_DATA_COMPLETE':
             return {...state, clientData: action.payload};
         case 'SELECT_CLIENT':
-            return {...state, selectClient: action.payload};
+            const selectClientID = action.payload
+                ? action.payload.ID
+                : null;
+            return {...state, selectClient: {...state.selectClient,
+                    selectClientID  : selectClientID,
+                    selectClientData: action.payload } };
         case 'ADD_CLIENT':
             const newClient = action.payload;
             return {...state, clientData: [...state.clientData, newClient]};

@@ -6,7 +6,7 @@ import loadData from "../services/loadData";
 import {connect} from "react-redux";
 
 
-const url = 'http://localhost:3000/clientform';
+
 
 const styles = theme => ({
     container: {
@@ -38,18 +38,20 @@ class ClientForm extends React.Component {
     }
 
     componentDidMount() {
-        this.loadDataAction(url);
+
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (this.props !== nextProps) {
-            return true;
-        }
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
-    }
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     console.warn('this.props.selectClient.ID', this.props.selectClient.ID)
+    //     console.warn('nextProps.selectClient.ID', nextProps.selectClient.ID)
+    //     if (this.props.selectClient.ID !== nextProps.selectClient.ID) {
+    //         return true;
+    //     }
+    //     if (this.state !== nextState) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     handleChange = (name) => (event) => {
        this.setState(state => ({...state, [name]: event.target.value}));
@@ -58,7 +60,9 @@ class ClientForm extends React.Component {
     render()
     {
         const {
-            clientForm
+            clientForm,
+            selectClientID,
+            selectClientData,
         } = this.props;
 
         const dataClientForm = Array.isArray(clientForm)
@@ -85,7 +89,7 @@ class ClientForm extends React.Component {
                                     <TextField
                                         id="outlined-helperText"
                                         label={label}
-                                        defaultValue={name}
+                                        defaultValue={selectClientData[name]}
                                         className={classes.textField}
                                         helperText={placeholder}
                                         margin="normal"
@@ -102,7 +106,7 @@ class ClientForm extends React.Component {
                                     select
                                     label={label}
                                     className={classes.textField}
-                                    value={this.state[name]}
+                                    value={selectClientData[name]}
                                     onChange={this.handleChange(name)}
                                     SelectProps={{
                                         native: true,
@@ -141,11 +145,12 @@ class ClientForm extends React.Component {
 
 
 const mapDispatchToProps = dispatch => ({
-    loadDataAction: anyUrl => dispatch(loadData(anyUrl, 'LOAD_DATA_CLIENT_FORM_COMPLETE'))
 });
 
 const mapStateToProps = state => ({
     clientForm: state.clientForm,
+    selectClientID: state.selectClient.selectClientID,
+    selectClientData: state.selectClient.selectClientData,
 });
 
 export default connect(

@@ -1,6 +1,5 @@
 export default function loadData(url, action) {
     return (dispatch) => {
-        console.warn('loadData url', url);
         fetch(url)
             .then((response) => {
                 if (response.status !== 200) {
@@ -9,7 +8,6 @@ export default function loadData(url, action) {
                     return;
                 }
                 response.json().then((data) => {
-                    console.warn('loadData загрузил и отправляет dispatch', data);
                     dispatch({type: action, payload: data});
                 });
             })

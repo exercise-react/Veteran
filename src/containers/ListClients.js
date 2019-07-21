@@ -14,9 +14,6 @@ import loadData from "../services/loadData";
 import {connect} from "react-redux";
 
 
-const url = 'http://localhost:3000/clientData';
-
-
 
 function desc(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -86,14 +83,14 @@ function EnhancedTableHead(props) {
     );
 }
 
-EnhancedTableHead.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-    onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
-    order: PropTypes.string.isRequired,
-    orderBy: PropTypes.string.isRequired,
-    rowCount: PropTypes.number.isRequired,
-};
+// EnhancedTableHead.propTypes = {
+//     numSelected: PropTypes.number.isRequired,
+//     onRequestSort: PropTypes.func.isRequired,
+//     onSelectAllClick: PropTypes.func.isRequired,
+//     order: PropTypes.string.isRequired,
+//     orderBy: PropTypes.string.isRequired,
+//     rowCount: PropTypes.number.isRequired,
+// };
 
 const useToolbarStyles = makeStyles(theme => ({
     root: {
@@ -149,22 +146,40 @@ class ListClients extends React.Component {
         this.state = {
             order: 'asc',
             orderBy: 'calories',
-            selected: [],
+            selected: null,
             page: 0,
             rowsPerPage: 5,
         };
-        this.setOrder = this.setState(value => ({order: value}));
-        this.setOrderBy = this.setState(value => ({order: value}));
-        this.setSelected = this.setState(value => ({order: value}));
-        this.setPage = this.setState(value => ({order: value}));
-        this.setRowsPerPage = this.setState(value => ({order: value}));
 
-        this.loadDataAction = props.loadDataAction;
+        this.selectRowAction = props.selectRowAction;
+
+        this.setOrder = (value) => {this.setState(state => ({...state, order: value}))};
+        this.setOrderBy = (value) => {
+            this.setState( state =>({...state, orderBy: value}))};
+        this.setSelected = (value) => {
+            if (this.state.selected === value.ID) {
+                this.setState(state => ({...state, selected: null}));
+                this.selectRowAction(null);
+            } else {
+                this.setState(state => ({...state, selected: value.ID}));
+                this.selectRowAction(value);
+            }
+        };
+        this.setPage = (value) => {this.setState(state => ({...state, page: value}))};
+        this.setRowsPerPage = (value) => {this.setState(state => ({...state, rowsPerPage: value}))};
+
+
+
+
+        this.handleChangePage = this.handleChangePage.bind(this);
+        this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
+        this.handleRequestSort = this.handleRequestSort.bind(this);
+        this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+
     }
 
-    componentDidMount() {
-        this.loadDataAction(url);
-    }
+
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
         if (this.props !== nextProps) {
@@ -176,66 +191,69 @@ class ListClients extends React.Component {
         return false;
     }
 
+     handleChangePage(event, newPage) {
+        this.setPage(newPage);
+    }
+
+     handleChangeRowsPerPage(event) {
+        this.setRowsPerPage(+event.target.value);
+        this.setPage(0);
+    }
+
+
+     handleRequestSort(event, property) {
+        const isDesc = this.state.orderBy === property && this.state.order === 'desc';
+        this.setOrder(isDesc ? 'asc' : 'desc');
+        this.setOrderBy(property);
+    }
+
+     handleSelectAllClick(event) {
+        if (event.target.checked) {
+            const newSelecteds = this.rows.map(n => n.name);
+            this.setSelected(newSelecteds);
+            return;
+        }
+        this.setSelected(null);
+    }
+
+     handleClick(row) {
+
+        if (row) {
+            console.warn('handleClick row', row);
+            // const selectedIndex = this.state.selected.indexOf(name);
+            //
+            // let newSelected = [];
+            //
+            // if (selectedIndex === -1) {
+            //     newSelected = newSelected.concat(this.state.selected, name);
+            // } else if (selectedIndex === 0) {
+            //     newSelected = newSelected.concat(this.state.selected.slice(1));
+            // } else if (selectedIndex === this.state.selected.length - 1) {
+            //     newSelected = newSelected.concat(this.state.selected.slice(0, -1));
+            // } else if (selectedIndex > 0) {
+            //     newSelected = newSelected.concat(
+            //         this.state.selected.slice(0, selectedIndex),
+            //         this.state.selected.slice(selectedIndex + 1),
+            //     );
+            // }
+
+            this.setSelected(row);
+        }
+
+    }
+
+
     render() {
-        const {
-            clientData
-        } = this.props;
-        const rows = Array.isArray(clientData)
-        && clientData.length > 0
-            ? clientData
+        const rows = Array.isArray(this.props.clientData) && this.props.clientData.length > 0
+            ? this.props.clientData
             : [];
-        console.warn('rows', rows)
 
         const classes = styles;
 
-
-        function handleRequestSort(event, property) {
-            const isDesc = this.state.orderBy === property && this.state.order === 'desc';
-            this.setOrder(isDesc ? 'asc' : 'desc');
-            this.setOrderBy(property);
-        }
-
-        function handleSelectAllClick(event) {
-            if (event.target.checked) {
-                const newSelecteds = rows.map(n => n.name);
-                this.setSelected(newSelecteds);
-                return;
-            }
-            this.setSelected([]);
-        }
-
-        function handleClick(event, name) {
-            const selectedIndex = this.state.selected.indexOf(name);
-            let newSelected = [];
-
-            if (selectedIndex === -1) {
-                newSelected = newSelected.concat(this.state.selected, name);
-            } else if (selectedIndex === 0) {
-                newSelected = newSelected.concat(this.state.selected.slice(1));
-            } else if (selectedIndex === this.state.selected.length - 1) {
-                newSelected = newSelected.concat(this.state.selected.slice(0, -1));
-            } else if (selectedIndex > 0) {
-                newSelected = newSelected.concat(
-                    this.state.selected.slice(0, selectedIndex),
-                    this.state.selected.slice(selectedIndex + 1),
-                );
-            }
-
-            this.setSelected(newSelected);
-        }
-
-        function handleChangePage(event, newPage) {
-            this.setPage(newPage);
-        }
-
-        function handleChangeRowsPerPage(event) {
-            this.setRowsPerPage(+event.target.value);
-            this.setPage(0);
-        }
-
-        const isSelected = name => this.state.selected.indexOf(name) !== -1;
-
-        const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage);
+        const isSelected = name => {
+            return name && this.state.selected && this.state.selected.indexOf(name) !== -1}
+        ;
+        const emptyRows =  this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
 
         return (
             <div className={classes.root}>
@@ -247,33 +265,33 @@ class ListClients extends React.Component {
                             size={'medium'}
                         >
                             <EnhancedTableHead
-                                numSelected={this.state.selected.length}
+                                // numSelected={this.state.selected.length}
                                 order={this.state.order}
                                 orderBy={this.state.orderBy}
-                                onSelectAllClick={handleSelectAllClick}
-                                onRequestSort={handleRequestSort}
+                                onSelectAllClick={this.handleSelectAllClick}
+                                onRequestSort={this.handleRequestSort}
                                 rowCount={rows.length}
                             />
                             <TableBody>
                                 {stableSort(rows, getSorting(this.state.order, this.state.orderBy))
                                     .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                    .map((row, index) => {
-                                        const isItemSelected = isSelected(row.id);
+                                    .map((currentRow, index) => {
+                                        const isItemSelected = isSelected(currentRow.ID);
                                         const labelId = `enhanced-table-checkbox-${index}`;
 
                                         return (
                                             <TableRow
                                                 hover
-                                                onClick={event => handleClick(event, row.name)}
+                                                onClick={event => this.handleClick(currentRow)}
                                                 role="checkbox"
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}
-                                                key={row.id}
+                                                key={currentRow.ID}
                                                 selected={isItemSelected}
                                             >
                                                 {idsHeader.map((idHeader, index) => {
                                                     return (
-                                                        <TableCell key={index} align="right">{row[idHeader]}</TableCell>
+                                                        <TableCell key={index} align="right">{currentRow[idHeader]}</TableCell>
 
                                                     )
                                                 })}
@@ -302,8 +320,8 @@ class ListClients extends React.Component {
                         nextIconButtonProps={{
                             'aria-label': 'Next Page',
                         }}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        onChangePage={this.handleChangePage}
+                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
                     />
                 </Paper>
             </div>
@@ -312,7 +330,7 @@ class ListClients extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    loadDataAction: anyUrl => dispatch(loadData(anyUrl, 'LOAD_CLIENT_DATA_COMPLETE'))
+    selectRowAction: data => dispatch({type: 'SELECT_CLIENT', payload: data})
 });
 
 const mapStateToProps = state => ({

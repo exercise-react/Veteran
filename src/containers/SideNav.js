@@ -50,7 +50,6 @@ ListItemLink.propTypes = {
 };
 
 const styles = theme => {
-    console.warn('theme', theme)
     return ({
         root: {
             display: 'flex',
