@@ -145,13 +145,16 @@ class ListClients extends React.Component {
         super(props);
         this.state = {
             order: 'asc',
-            orderBy: 'calories',
+            orderBy: '',
             selected: null,
             page: 0,
             rowsPerPage: 5,
         };
 
         this.selectRowAction = props.selectRowAction;
+        this.editRowAction = props.editRowAction;
+        this.cancelEditRowAction = props.cancelEditRowAction;
+        this.addNewClientAction = props.addNewClientAction;
 
         this.setOrder = (value) => {this.setState(state => ({...state, order: value}))};
         this.setOrderBy = (value) => {
@@ -160,9 +163,12 @@ class ListClients extends React.Component {
             if (this.state.selected === value.ID) {
                 this.setState(state => ({...state, selected: null}));
                 this.selectRowAction(null);
+                this.cancelEditRowAction()
+
             } else {
                 this.setState(state => ({...state, selected: value.ID}));
                 this.selectRowAction(value);
+                this.editRowAction(value)
             }
         };
         this.setPage = (value) => {this.setState(state => ({...state, page: value}))};
@@ -305,7 +311,9 @@ class ListClients extends React.Component {
                                 )}
                             </TableBody>
                         </Table>
-                        <Button className={classes.button}>+New</Button>
+                        <Button className={classes.button}
+                                onClick={() => this.addNewClientAction()}>
+                            +New</Button>
 
                     </div>
                     <TablePagination
@@ -330,7 +338,13 @@ class ListClients extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    selectRowAction: data => dispatch({type: 'SELECT_CLIENT', payload: data})
+    selectRowAction: data => dispatch({type: 'SELECT_CLIENT', payload: data}),
+    editRowAction: data => dispatch({type: 'EDIT_SELECTED_CLIENT', payload: data}),
+    cancelEditRowAction: () => dispatch({type: 'CANCEL_EDIT_CLIENT'}),
+    addNewClientAction: () => dispatch({type: 'ADD_NEW_CLIENT'}),
+
+
+
 });
 
 const mapStateToProps = state => ({

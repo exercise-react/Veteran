@@ -1,3 +1,17 @@
+const descriptorNewClient = {
+    "ID": '',
+    "CreateDate":'',
+    "FirstName": '',
+    "LastName": '',
+    "CityBirth": '',
+    "StateBirth": '',
+    "ServiceNumber": '',
+    "Branch": '',
+    "Rank": '',
+    "Discharge": '' ,
+    "Comments": ''
+};
+
 const InitialState = {
     auth: null,
     selectClient: {
@@ -9,6 +23,7 @@ const InitialState = {
     navigation: null,
     clientForm: null,
     clientData: null,
+    descriptor: descriptorNewClient,
 };
 
 export default function rootReducer(state = InitialState, action) {
@@ -26,16 +41,53 @@ export default function rootReducer(state = InitialState, action) {
             return {...state, selectClient: {...state.selectClient,
                     selectClientID  : selectClientID,
                     selectClientData: action.payload } };
-        case 'ADD_CLIENT':
+        case 'ADD_NEW_CLIENT':
             const newClient = action.payload;
-            return {...state, clientData: [...state.clientData, newClient]};
+
+           // console.warn('state.clientData[0].slice(2)', Number(state.clientData[0].ID.slice(2)));
+
+            let newId =state.clientData.reduce((acc, curr) => {
+                console.warn('acc.ID', acc.ID);
+                console.warn('curr.ID', curr.ID);
+                 acc = Number(acc.ID.slice(2)) > Number(curr.ID.slice(2))
+                    ? acc
+                    : curr;
+                console.warn('acc', acc);
+               return acc
+            });
+            newId = 'AC'+(Number(newId.ID.slice(2))+1).toString();
+
+            console.warn('newId', newId);
+
+            return {...state, selectClient: {...state.selectClient,
+                    selectClientID  : newId ,
+                    selectClientData: {...state.descriptor, ID: newId} }};
         case 'EDIT_SELECTED_CLIENT':
-            const newClientData = action.payload;
-            return {...state, backup: state.clientForm, edit: true, clientData: newClientData};
+            return {...state, backup: state.clientData, edit: true};
+        case 'EDITING_SELECTED_CLIENT':
+            return {...state, selectClient: {...state.selectClient,
+                    selectClientData: action.payload }};
         case 'CANCEL_EDIT_CLIENT':
-            return {...state, clientData: state.backup, backup: null, edit: false};
+            return {...state, selectClient: {...state.selectClient,
+                    selectClientID  : null,
+                    selectClientData: null }, clientData: state.backup, backup: null, edit: false};
         case 'SAVE_COMPLETE_CLIENT':
-            return {...state, backup: null, edit: false};
+           let newClientData =  state.clientData.map(client => {
+               if (client.ID === state.selectClient.selectClientData.ID) return state.selectClient.selectClientData;
+               return client
+           });
+// добавить в массив если новый клиент добавлен с новым ид
+            console.warn('newClientData',newClientData);
+            console.warn('условие', newClientData.filter(client => client.ID === state.selectClient.selectClientData.ID
+            ));
+
+             if (newClientData.filter(client => client.ID === state.selectClient.selectClientData.ID).length < 1) {
+
+                 newClientData.push(state.selectClient.selectClientData) } ;
+
+            return {...state, selectClient: {...state.selectClient,
+                    selectClientID  : null,
+                    selectClientData: null }, clientData: newClientData, backup: null, edit: false};
 
         default:
             return state;

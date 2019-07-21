@@ -11,8 +11,8 @@ const Main = () => (
         <Router>
             <Switch>
                 <Suspense fallback={<div> ...Loading </div>}>
-                    <Route exact path='/main' component={VeteranInformation}/>
-                    <Route exact path='/logout' component={Home}/>
+                    <Route exact path='/clients/veteran-information' component={VeteranInformation}/>
+                    <Route exact path='/' component={Home}/>
                 </Suspense>
             </Switch>
         </Router>

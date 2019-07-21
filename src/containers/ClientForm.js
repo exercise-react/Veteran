@@ -4,6 +4,7 @@ import TextField from "@material-ui/core/TextField/index";
 import Button from "@material-ui/core/Button/index";
 import loadData from "../services/loadData";
 import {connect} from "react-redux";
+import MenuItem from "@material-ui/core/MenuItem";
 
 
 
@@ -35,6 +36,9 @@ class ClientForm extends React.Component {
             items: 'EUR',
         };
         this.loadDataAction = props.loadDataAction;
+        this.editingSelectClientAction = props.editingSelectClientAction;
+        this.saveSelectClientAction = props.saveSelectClientAction;
+        this.cancelEditSelectClientAction = props.cancelEditSelectClientAction;
     }
 
     componentDidMount() {
@@ -53,9 +57,13 @@ class ClientForm extends React.Component {
     //     return false;
     // }
 
-    handleChange = (name) => (event) => {
-       this.setState(state => ({...state, [name]: event.target.value}));
-    };
+    // handleChange  (event) {
+    //
+    //     console.warn('event', event)
+    //
+    // };
+
+
 
     render()
     {
@@ -77,6 +85,21 @@ class ClientForm extends React.Component {
         //     }
         // }, {});
 
+        const handleChange = name => event => {
+            console.warn('name', name)
+            console.warn('event', event.target.value);
+
+            this.editingSelectClientAction({ ...selectClientData, [name]: event.target.value })
+
+            // setValues({ ...selectClientData, [name]: event.target.value });
+           // setValues({ ...values, [name]: event.target.value });
+        };
+
+    //    const handleClick = name => event => {
+    //        console.warn('name', name)
+    //        console.warn('event', event.target.value);
+    // };
+
 
         return (
             <>
@@ -90,6 +113,7 @@ class ClientForm extends React.Component {
                                         id="outlined-helperText"
                                         label={label}
                                         defaultValue={selectClientData[name]}
+                                        onChange={handleChange(name)}
                                         className={classes.textField}
                                         helperText={placeholder}
                                         margin="normal"
@@ -107,9 +131,8 @@ class ClientForm extends React.Component {
                                     label={label}
                                     className={classes.textField}
                                     value={selectClientData[name]}
-                                    onChange={this.handleChange(name)}
+                                    onChange={handleChange(name)}
                                     SelectProps={{
-                                        native: true,
                                         MenuProps: {
                                             className: classes.menu,
                                         },
@@ -118,10 +141,11 @@ class ClientForm extends React.Component {
                                     margin="normal"
                                     variant="outlined"
                                 >
+
                                     {items.map(option => (
-                                        <option key={option.value} value={option.value}>
+                                        <MenuItem key={option.value} value={option.value}>
                                             {option.label}
-                                        </option>
+                                        </MenuItem>
                                     ))}
                                 </TextField>
                             )
@@ -129,11 +153,16 @@ class ClientForm extends React.Component {
                     })}
 
                     <div>
-                        <Button variant="contained" color="primary" className={classes.button}>
+                        <Button onClick={() => this.saveSelectClientAction()}
+                                variant="contained"
+                                color="primary"
+                                className={classes.button}>
                             Save
                         </Button>
 
-                        <Button variant="contained" className={classes.button}>
+                        <Button onClick={() => this.cancelEditSelectClientAction()}
+                                variant="contained"
+                                className={classes.button}>
                             Cancel
                         </Button>
                     </div>
@@ -145,6 +174,9 @@ class ClientForm extends React.Component {
 
 
 const mapDispatchToProps = dispatch => ({
+    editingSelectClientAction: data => dispatch({type: 'EDITING_SELECTED_CLIENT', payload: data}),
+    saveSelectClientAction: data => dispatch({type: 'SAVE_COMPLETE_CLIENT', payload: data}),
+    cancelEditSelectClientAction: () => dispatch({type: 'CANCEL_EDIT_CLIENT'}),
 });
 
 const mapStateToProps = state => ({
