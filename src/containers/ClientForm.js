@@ -46,6 +46,7 @@ class ClientForm extends React.Component {
             clientForm,
             selectClientID,
             selectClientData,
+            addNewClient
         } = this.props;
 
         const dataClientForm = Array.isArray(clientForm)
@@ -66,7 +67,7 @@ class ClientForm extends React.Component {
                     {dataClientForm.map((element, index) => {
                         if ('element' in element && element.element) {
                             const {label, placeholder, name} = element;
-                            const uniqKey = selectClientData[name] === ''
+                            const uniqKey = addNewClient
                                 ? index
                                 : selectClientData[name];
                             if (element.element === 'input') {
@@ -173,6 +174,7 @@ const mapStateToProps = state => ({
     clientForm: state.clientForm,
     selectClientID: state.selectClient.selectClientID,
     selectClientData: state.selectClient.selectClientData,
+    addNewClient: state.addNewClient,
 });
 
 export default connect(

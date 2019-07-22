@@ -23,6 +23,7 @@ const InitialState = {
     navigation: null,
     clientForm: null,
     clientData: null,
+    addNewClient: false,
     descriptor: descriptorNewClient,
 };
 
@@ -55,7 +56,7 @@ export default function rootReducer(state = InitialState, action) {
             newId = 'AC' + (Number(newId.ID.slice(2)) + 1).toString();
 
             return {
-                ...state, selectClient: {
+                ...state, addNewClient: true, selectClient: {
                     ...state.selectClient,
                     selectClientID: newId,
                     selectClientData: {...state.descriptor, ID: newId}
@@ -76,7 +77,7 @@ export default function rootReducer(state = InitialState, action) {
                     ...state.selectClient,
                     selectClientID: null,
                     selectClientData: null
-                }, clientData: state.backup, backup: null, edit: false
+                }, addNewClient: false, clientData: state.backup, backup: null, edit: false
             };
         case 'SAVE_COMPLETE_CLIENT':
             let newClientData = state.clientData.map(client => {
@@ -94,7 +95,7 @@ export default function rootReducer(state = InitialState, action) {
                     ...state.selectClient,
                     selectClientID: null,
                     selectClientData: null
-                }, clientData: newClientData, backup: null, edit: false
+                }, addNewClient: false, clientData: newClientData, backup: null, edit: false
             };
 
         default:

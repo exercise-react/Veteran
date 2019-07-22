@@ -292,21 +292,7 @@ class ListClients extends React.Component {
                             +New</Button>
 
                     </div>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={this.state.rowsPerPage}
-                        page={this.state.page}
-                        backIconButtonProps={{
-                            'aria-label': 'Previous Page',
-                        }}
-                        nextIconButtonProps={{
-                            'aria-label': 'Next Page',
-                        }}
-                        onChangePage={this.handleChangePage}
-                        onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                    />
+
                 </Paper>
             </div>
         );
@@ -330,3 +316,23 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(withStyles(styles)(ListClients));
+
+/*
+
+<TablePagination
+    rowsPerPageOptions={[5, 10, 25]}
+    component="div"
+    count={rows.length}
+    rowsPerPage={this.state.rowsPerPage}
+    page={this.state.page}
+    backIconButtonProps={{
+        'aria-label': 'Previous Page',
+    }}
+    nextIconButtonProps={{
+        'aria-label': 'Next Page',
+    }}
+    onChangePage={this.handleChangePage}
+    onChangeRowsPerPage={this.handleChangeRowsPerPage}
+/>
+
+*/
