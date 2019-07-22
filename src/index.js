@@ -13,6 +13,7 @@ import thunk from "redux-thunk";
 import {createLogger} from 'redux-logger';
 import rootReducer from './reducers/index';
 
+
 const middleware = [thunk];
 if (process.env.NODE_ENV !== 'production') {
     middleware.push(createLogger());
@@ -23,10 +24,11 @@ const store = createStore(rootReducer, applyMiddleware(...middleware));
 ReactDOM.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
+            <CssBaseline>
             <BrowserRouter>
                 <App/>
             </BrowserRouter>
+            </CssBaseline>
         </ThemeProvider>
     </Provider>, document.getElementById('root'));
 

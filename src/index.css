@@ -21,16 +21,15 @@ code {
   text-align: center;
 }
 
-.main-container {
+.content-container {
   display: flex;
   flex-direction: row;
-width: 400px;
+  width: 400px;
+}
+
+.main-container {
+
 }
 
 .sidenav-container {
-
-}
-
-.main-container {
-
 }

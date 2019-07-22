@@ -9,10 +9,10 @@ function App() {
     return (
         <div className='head-container'>
             <Header className='header-container'/>
-            <main className='main-container'>
+            <div className='content-container'>
                 <SideNav className='sidenav-container'/>
                 <Main className='main-container'/>
-            </main>
+            </div>
         </div>
     );
 }
