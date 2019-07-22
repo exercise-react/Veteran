@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {withStyles} from '@material-ui/core/styles/index';
 import List from '@material-ui/core/List/index';
 import ListItem from '@material-ui/core/ListItem/index';
 import Collapse from '@material-ui/core/Collapse/index';
@@ -8,25 +7,24 @@ import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
-import {connect} from 'react-redux';
-import loadData from '../services/loadData';
+import { makeStyles } from '@material-ui/core/styles';
 
 
-const url = 'http://localhost:3000/navigation';
-
-const styles = theme => ({
+const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        maxWidth: 360,
+        minWidth: 300,
+        maxWidth: 300,
         backgroundColor: theme.palette.background.paper,
     },
     nested: {
         paddingLeft: theme.spacing(4),
     },
-});
+}));
 
 
-function ListItemLink(props) {
+
+ function ListItemLink(props) {
     const {to, uniqKey, primary, open, ...other} = props;
 
     return (
@@ -47,41 +45,20 @@ ListItemLink.propTypes = {
 };
 
 
-class SideNav extends React.Component {
+export default function SideNav(props)  {
+    const classes = useStyles();
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: true,
-        };
-        this.loadDataAction = props.loadDataAction;
+    const [openNav, setNavOpen] = useState(true);
 
-    }
 
-    componentDidMount() {
-        this.loadDataAction(url);
-    }
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (this.props !== nextProps) {
-            return true;
-        }
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
-    }
-
-    handleClick = () => {
-        this.setState(state => ({open: !state.open}));
+  const  handleClick = () => {
+      setNavOpen(!openNav);
     };
-
-    render() {
 
 
         const {
             navigation
-        } = this.props;
+        } = props;
 
         if (!navigation) {
             return <p>Loading...</p>;
@@ -116,11 +93,11 @@ class SideNav extends React.Component {
                 <ListItemLink to={nodesChildren.url}
                               uniqKey={nodesChildren.id}
                               primary={nodesChildren.title}
-                              open={this.state.open}
-                              onClick={this.handleClick}/>
+                              open={openNav}
+                              onClick={handleClick}/>
                 {nodesChildren.subitems.map(children => (
                     <Collapse component="li"
-                              in={this.state.open}
+                              in={openNav}
                               timeout="auto" unmountOnExit
                               key={children.id}
                               className={classes.nested}>
@@ -135,7 +112,8 @@ class SideNav extends React.Component {
         );
 
 
-        const classes = styles;
+       // const classes = styles();
+
 
         return (
             <div className={classes.root}>
@@ -146,22 +124,9 @@ class SideNav extends React.Component {
                 </nav>
             </div>
         );
-    }
+
 }
 
 SideNav.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-
-const mapDispatchToProps = dispatch => ({
-    loadDataAction: anyUrl => dispatch(loadData(anyUrl, 'LOAD_DATA_NAVIGATION_COMPLETE'))
-});
-
-const mapStateToProps = state => ({
-    navigation: state.navigation,
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withStyles(styles)(SideNav));
