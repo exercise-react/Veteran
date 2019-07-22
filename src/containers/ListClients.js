@@ -10,7 +10,6 @@ import TableRow from '@material-ui/core/TableRow/index';
 import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
 import Button from "@material-ui/core/Button/index";
-import loadData from "../services/loadData";
 import {connect} from "react-redux";
 
 
@@ -225,24 +224,6 @@ class ListClients extends React.Component {
      handleClick(row) {
 
         if (row) {
-            console.warn('handleClick row', row);
-            // const selectedIndex = this.state.selected.indexOf(name);
-            //
-            // let newSelected = [];
-            //
-            // if (selectedIndex === -1) {
-            //     newSelected = newSelected.concat(this.state.selected, name);
-            // } else if (selectedIndex === 0) {
-            //     newSelected = newSelected.concat(this.state.selected.slice(1));
-            // } else if (selectedIndex === this.state.selected.length - 1) {
-            //     newSelected = newSelected.concat(this.state.selected.slice(0, -1));
-            // } else if (selectedIndex > 0) {
-            //     newSelected = newSelected.concat(
-            //         this.state.selected.slice(0, selectedIndex),
-            //         this.state.selected.slice(selectedIndex + 1),
-            //     );
-            // }
-
             this.setSelected(row);
         }
 

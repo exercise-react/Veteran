@@ -8,7 +8,6 @@ import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
-import {data} from '../components/data';
 import {createMuiTheme} from '@material-ui/core/styles/index';
 import purple from '@material-ui/core/colors/purple';
 import green from '@material-ui/core/colors/green';

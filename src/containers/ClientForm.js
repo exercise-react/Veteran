@@ -1,8 +1,7 @@
 import React from 'react';
-import {makeStyles, withStyles} from '@material-ui/core/styles/index';
+import { withStyles} from '@material-ui/core/styles/index';
 import TextField from "@material-ui/core/TextField/index";
 import Button from "@material-ui/core/Button/index";
-import loadData from "../services/loadData";
 import {connect} from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
 
@@ -79,27 +78,13 @@ class ClientForm extends React.Component {
             : [];
 
         const classes = styles;
-        // const initialState = dataClientForm.reduce(acc, curr => {
-        //     if ('element' in curr && curr.element && curr.element === 'select') {
-        //         acc[curr.name]
-        //     }
-        // }, {});
 
         const handleChange = name => event => {
             console.warn('name', name)
             console.warn('event', event.target.value);
 
             this.editingSelectClientAction({ ...selectClientData, [name]: event.target.value })
-
-            // setValues({ ...selectClientData, [name]: event.target.value });
-           // setValues({ ...values, [name]: event.target.value });
         };
-
-    //    const handleClick = name => event => {
-    //        console.warn('name', name)
-    //        console.warn('event', event.target.value);
-    // };
-
 
         return (
             <>

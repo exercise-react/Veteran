@@ -44,20 +44,13 @@ export default function rootReducer(state = InitialState, action) {
         case 'ADD_NEW_CLIENT':
             const newClient = action.payload;
 
-           // console.warn('state.clientData[0].slice(2)', Number(state.clientData[0].ID.slice(2)));
-
             let newId =state.clientData.reduce((acc, curr) => {
-                console.warn('acc.ID', acc.ID);
-                console.warn('curr.ID', curr.ID);
                  acc = Number(acc.ID.slice(2)) > Number(curr.ID.slice(2))
                     ? acc
                     : curr;
-                console.warn('acc', acc);
                return acc
             });
             newId = 'AC'+(Number(newId.ID.slice(2))+1).toString();
-
-            console.warn('newId', newId);
 
             return {...state, selectClient: {...state.selectClient,
                     selectClientID  : newId ,
@@ -77,9 +70,6 @@ export default function rootReducer(state = InitialState, action) {
                return client
            });
 // добавить в массив если новый клиент добавлен с новым ид
-            console.warn('newClientData',newClientData);
-            console.warn('условие', newClientData.filter(client => client.ID === state.selectClient.selectClientData.ID
-            ));
 
              if (newClientData.filter(client => client.ID === state.selectClient.selectClientData.ID).length < 1) {
 
