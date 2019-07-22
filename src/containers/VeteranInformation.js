@@ -30,16 +30,16 @@ class VeteranInformation extends React.Component {
     render() {
         const dataClient = this.props.selectClientID;
         if (dataClient) return (
-            <>
+            <div className='veteranInfo-container'>
                 <ListClients/>
-                <ClientForm/>
-            </>
+                <ClientForm />
+            </div>
         );
 
         return (
-            <>
+            <div className='veteranInfo-container'>
                 <ListClients/>
-            </>
+            </div>
         )
     }
 }

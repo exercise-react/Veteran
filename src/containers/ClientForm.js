@@ -44,7 +44,6 @@ class ClientForm extends React.Component {
     render() {
         const {
             clientForm,
-            selectClientID,
             selectClientData,
             addNewClient
         } = this.props;
@@ -62,78 +61,77 @@ class ClientForm extends React.Component {
         };
 
         return (
-            <>
-                <div className={classes.container}>
-                    {dataClientForm.map((element, index) => {
-                        if ('element' in element && element.element) {
-                            const {label, placeholder, name} = element;
-                            const uniqKey = addNewClient
-                                ? index
-                                : selectClientData[name];
-                            if (element.element === 'input') {
-                                if (element.type === 'text') {
-                                    return (
-                                        <TextField key={uniqKey}
-                                                   id="outlined-helperText"
-                                                   label={label}
-                                                   defaultValue={selectClientData[name]}
-                                                   onChange={handleChange(name)}
-                                                   className={classes.textField}
-                                                   helperText={placeholder}
-                                                   margin="normal"
-                                                   variant="outlined"
-                                        />  )
-                                }
-                                if (element.type === 'textarea') {
-                                    return (
-                                        <TextField key={uniqKey}
-                                                   multiline
-                                                   id="outlined-helperText"
-                                                   label={label}
-                                                   defaultValue={selectClientData[name]}
-                                                   onChange={handleChange(name)}
-                                                   className={classes.textField}
-                                                   helperText={placeholder}
-                                                   margin="normal"
-                                                   variant="outlined"
-                                        />)
-                                }
-
-                            }
-                            if (element.element === 'select') {
-                                const {items} = element;
-
+            <div className='clientForm-container'>
+                {dataClientForm.map((element, index) => {
+                    if ('element' in element && element.element) {
+                        const {label, placeholder, name} = element;
+                        const uniqKey = addNewClient
+                            ? index
+                            : selectClientData[name];
+                        if (element.element === 'input') {
+                            if (element.type === 'text') {
                                 return (
                                     <TextField key={uniqKey}
-                                               id="outlined-select-currency-native"
-                                               select
+                                               id="outlined-helperText"
                                                label={label}
-                                               className={classes.textField}
-                                               value={selectClientData[name]}
+                                               defaultValue={selectClientData[name]}
                                                onChange={handleChange(name)}
-                                               SelectProps={{
-                                                   MenuProps: {
-                                                       className: classes.menu,
-                                                   },
-                                               }}
+                                               className={classes.textField}
                                                helperText={placeholder}
                                                margin="normal"
                                                variant="outlined"
-                                    >
-
-                                        {items.map(option => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
-                                            </MenuItem>
-                                        ))}
-                                    </TextField>
-                                )
+                                    />)
                             }
+                            if (element.type === 'textarea') {
+                                return (
+                                    <TextField key={uniqKey}
+                                               multiline
+                                               id="outlined-helperText"
+                                               label={label}
+                                               defaultValue={selectClientData[name]}
+                                               onChange={handleChange(name)}
+                                               className={classes.textField}
+                                               helperText={placeholder}
+                                               margin="normal"
+                                               variant="outlined"
+                                    />)
+                            }
+
                         }
-                    })}
-                    <div>
-                        <Button onClick={() => {
-                            alert(`
+                        if (element.element === 'select') {
+                            const {items} = element;
+
+                            return (
+                                <TextField key={uniqKey}
+                                           id="outlined-select-currency-native"
+                                           select
+                                           label={label}
+                                           className={classes.textField}
+                                           value={selectClientData[name]}
+                                           onChange={handleChange(name)}
+                                           SelectProps={{
+                                               MenuProps: {
+                                                   className: classes.menu,
+                                               },
+                                           }}
+                                           helperText={placeholder}
+                                           margin="normal"
+                                           variant="outlined"
+                                >
+
+                                    {items.map(option => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+                            )
+                        }
+                    }
+                })}
+                <div>
+                    <Button className='buttonSave' onClick={() => {
+                        alert(`
                             FirstName: ${selectClientData.FirstName}
                             LastName: ${selectClientData.LastName}
                             CityBirth: ${selectClientData.CityBirth}
@@ -143,21 +141,21 @@ class ClientForm extends React.Component {
                             Discharge: ${selectClientData.Discharge}
                             Comments: ${selectClientData.Comments}`);
 
-                            return this.saveSelectClientAction()}}
-                                variant="contained"
-                                color="primary"
-                                className={classes.button}>
-                            Save
-                        </Button>
+                        return this.saveSelectClientAction()
+                    }}
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}>
+                        Save
+                    </Button>
 
-                        <Button onClick={() => this.cancelEditSelectClientAction()}
-                                variant="contained"
-                                className={classes.button}>
-                            Cancel
-                        </Button>
-                    </div>
+                    <Button onClick={() => this.cancelEditSelectClientAction()}
+                            variant="contained"
+                            className={classes.button}>
+                        Cancel
+                    </Button>
                 </div>
-            </>
+            </div>
         )
     }
 }

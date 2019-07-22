@@ -1,33 +1,43 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 .head-container {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .header-container {
 }
 
 .content-container {
-  padding-top: 50px;
-  display: flex;
-  flex-direction: row;
-width: 400px;
+
+    display: flex;
+    flex-direction: row;
+    width: 350px;
 }
 
 .main-container {
+
+}
+
+.makeStyles-root-1 {
+    margin-right: 100px;
+    background-color: gainsboro !important;
+}
+
+.makeStyles-lists-2, .MuiList-root {
+    background-color: gainsboro !important;
 }
 
 .sidenav-container {
@@ -35,29 +45,45 @@ width: 400px;
 }
 
 .MuiListItem-root {
-  color: black;
-  text-decoration: none;
-  font-weight: bold !important;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
+    color: black;
+    text-decoration: none;
+    font-weight: bold !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
 }
 
 .MuiListItem-root:hover {
-  color: #61dafb;
-  text-decoration: underline;
-  font-weight: bold;
+    color: deepskyblue;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 .MuiTableCell-root:hover {
-   cursor: pointer !important;
- }
+    cursor: pointer !important;
+
+}
 
 .MuiTableCell-root {
-  cursor: pointer !important;
+    cursor: pointer !important;
+    padding-right: 60px !important;
 }
 
 .MuiPaper-root {
-  box-shadow: none !important;
+    box-shadow: none !important;
 }
 
+.MuiButtonBase-root {
+    margin-right: 30px !important;
+
+}
+
+.veteranInfo-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.clientForm-container {
+    display: flex;
+    flex-direction: column;
+}
 

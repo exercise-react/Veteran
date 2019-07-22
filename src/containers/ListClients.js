@@ -1,5 +1,5 @@
 import React from 'react';
-import {lighten, makeStyles, withStyles} from '@material-ui/core/styles/index';
+import {lighten, withStyles} from '@material-ui/core/styles/index';
 import Table from '@material-ui/core/Table/index';
 import TableBody from '@material-ui/core/TableBody/index';
 import TableCell from '@material-ui/core/TableCell/index';
@@ -49,7 +49,7 @@ const idsHeader = headRows.reduce((acc, curr) => {
 
 
 function EnhancedTableHead(props) {
-    const { order, orderBy, onRequestSort} = props;
+    const {order, orderBy, onRequestSort} = props;
     const createSortHandler = property => event => {
         onRequestSort(event, property);
     };
@@ -68,8 +68,7 @@ function EnhancedTableHead(props) {
                         <TableSortLabel
                             active={orderBy === row.id}
                             direction={order}
-                            onClick={createSortHandler(row.id)}
-                        >
+                            onClick={createSortHandler(row.id)}>
                             {row.label}
                         </TableSortLabel>
                     </TableCell>
@@ -79,34 +78,34 @@ function EnhancedTableHead(props) {
     );
 }
 
-const useToolbarStyles = makeStyles(theme => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    spacer: {
-        flex: '1 1 100%',
-    },
-    actions: {
-        color: theme.palette.text.secondary,
-    },
-    title: {
-        flex: '0 0 auto',
-    },
-}));
+// const useToolbarStyles = makeStyles(theme => ({
+//     root: {
+//         paddingLeft: theme.spacing(2),
+//         paddingRight: theme.spacing(1),
+//     },
+//     button: {
+//         margin: theme.spacing(1),
+//     },
+//     highlight:
+//         theme.palette.type === 'light'
+//             ? {
+//                 color: theme.palette.secondary.main,
+//                 backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+//             }
+//             : {
+//                 color: theme.palette.text.primary,
+//                 backgroundColor: theme.palette.secondary.dark,
+//             },
+//     spacer: {
+//         flex: '1 1 100%',
+//     },
+//     actions: {
+//         color: theme.palette.text.secondary,
+//     },
+//     title: {
+//         flex: '0 0 auto',
+//     },
+// }));
 
 
 const styles = theme => ({
@@ -207,17 +206,6 @@ class ListClients extends React.Component {
 
     }
 
-
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        if (this.props !== nextProps) {
-            return true;
-        }
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
-    }
-
     handleChangePage(event, newPage) {
         this.setPage(newPage);
     }
@@ -266,66 +254,65 @@ class ListClients extends React.Component {
         const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
 
         return (
-            <div className={classes.root}>
-                <div> Clients (choose row to edit)</div>
-                <br />
-                <Paper className={classes.paper}>
-                    <div className={classes.tableWrapper}>
-                        <Table
-                            className={classes.table}
-                            aria-labelledby="tableTitle"
-                            size={'medium'}
-                        >
-                            <EnhancedTableHead
-                                // numSelected={this.state.selected.length}
-                                order={this.state.order}
-                                orderBy={this.state.orderBy}
-                                onSelectAllClick={this.handleSelectAllClick}
-                                onRequestSort={this.handleRequestSort}
-                                rowCount={rows.length}
-                            />
-                            <TableBody>
-                                {stableSort(rows, getSorting(this.state.order, this.state.orderBy))
-                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                    .map((currentRow, index) => {
-                                        const isItemSelected = isSelected(currentRow.ID);
-                                        const labelId = `enhanced-table-checkbox-${index}`;
+                <div className={classes.root}>
+                    <br/>
+                    <div> Clients (choose row to edit)</div>
+                    <br/>
+                    <Paper className={classes.paper}>
+                        <div className={classes.tableWrapper}>
+                            <Table
+                                className={classes.table}
+                                aria-labelledby="tableTitle"
+                                size={'medium'}>
+                                <EnhancedTableHead
+                                    // numSelected={this.state.selected.length}
+                                    order={this.state.order}
+                                    orderBy={this.state.orderBy}
+                                    onSelectAllClick={this.handleSelectAllClick}
+                                    onRequestSort={this.handleRequestSort}
+                                    rowCount={rows.length}
+                                />
+                                <TableBody>
+                                    {stableSort(rows, getSorting(this.state.order, this.state.orderBy))
+                                        .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                                        .map(currentRow => {
+                                            const isItemSelected = isSelected(currentRow.ID);
 
-                                        return (
-                                            <TableRow
-                                                hover
-                                                onClick={event => this.handleClick(currentRow)}
-                                                role="checkbox"
-                                                aria-checked={isItemSelected}
-                                                tabIndex={-1}
-                                                key={currentRow.ID}
-                                                selected={isItemSelected}
-                                            >
-                                                {idsHeader.map((idHeader, index) => {
-                                                    return (
-                                                        <TableCell key={index}
-                                                                   align="left">{currentRow[idHeader]}</TableCell>
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    onClick={event => this.handleClick(currentRow)}
+                                                    role="checkbox"
+                                                    aria-checked={isItemSelected}
+                                                    tabIndex={-1}
+                                                    key={currentRow.ID}
+                                                    selected={isItemSelected}
+                                                >
+                                                    {idsHeader.map((idHeader, index) => {
+                                                        return (
+                                                            <TableCell key={index} align="left">
+                                                                {currentRow[idHeader]}</TableCell>
 
-                                                    )
-                                                })}
-                                            </TableRow>
-                                        );
-                                    })}
-                                {emptyRows > 0 && (
-                                    <TableRow style={{height: 49 * emptyRows}}>
-                                        <TableCell colSpan={6}/>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                        <Button className={classes.button}
-                                onClick={() => this.addNewClientAction()}>
-                            +New</Button>
+                                                        )
+                                                    })}
+                                                </TableRow>
+                                            );
+                                        })}
+                                    {emptyRows > 0 && (
+                                        <TableRow style={{height: 49 * emptyRows}}>
+                                            <TableCell colSpan={6}/>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                            <Button className={classes.button}
+                                    onClick={() => this.addNewClientAction()}>
+                                +New</Button>
 
-                    </div>
+                        </div>
 
-                </Paper>
-            </div>
+                    </Paper>
+                </div>
         );
     }
 }
