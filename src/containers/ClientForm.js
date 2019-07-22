@@ -132,7 +132,18 @@ class ClientForm extends React.Component {
                     })}
 
                     <div>
-                        <Button onClick={() => this.saveSelectClientAction()}
+                        <Button onClick={() => {
+                            alert(`
+                            FirstName: ${selectClientData.FirstName}
+                            LastName: ${selectClientData.LastName}
+                            CityBirth: ${selectClientData.CityBirth}
+                            StateBirth: ${selectClientData.StateBirth}
+                            Branch: ${selectClientData.Branch}
+                            Rank: ${selectClientData.Rank}
+                            Discharge: ${selectClientData.Discharge}
+                            Comments: ${selectClientData.Comments}`);
+
+                            return this.saveSelectClientAction()}}
                                 variant="contained"
                                 color="primary"
                                 className={classes.button}>
