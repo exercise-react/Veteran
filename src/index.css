@@ -18,18 +18,18 @@ code {
 }
 
 .header-container {
-  text-align: center;
 }
 
 .content-container {
+  padding-top: 50px;
   display: flex;
   flex-direction: row;
   width: 400px;
 }
 
 .main-container {
-
 }
 
 .sidenav-container {
+
 }
