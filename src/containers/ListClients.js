@@ -4,7 +4,6 @@ import Table from '@material-ui/core/Table/index';
 import TableBody from '@material-ui/core/TableBody/index';
 import TableCell from '@material-ui/core/TableCell/index';
 import TableHead from '@material-ui/core/TableHead/index';
-import TablePagination from '@material-ui/core/TablePagination/index';
 import TableRow from '@material-ui/core/TableRow/index';
 import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
@@ -112,20 +111,50 @@ const useToolbarStyles = makeStyles(theme => ({
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        marginTop: theme.spacing(3),
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(1),
     },
-    paper: {
-        width: '100%',
-        marginBottom: theme.spacing(2),
+    button: {
+        margin: theme.spacing(1),
     },
-    table: {
-        minWidth: 750,
+    highlight:
+        theme.palette.type === 'light'
+            ? {
+                color: theme.palette.secondary.main,
+                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+            }
+            : {
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.secondary.dark,
+            },
+    spacer: {
+        flex: '1 1 100%',
     },
-    tableWrapper: {
-        overflowX: 'auto',
+    actions: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        flex: '0 0 auto',
     },
 });
+
+
+// const styles = theme => ({
+//     root: {
+//         width: '100%',
+//         marginTop: theme.spacing(3),
+//     },
+//     paper: {
+//         width: '100%',
+//         marginBottom: theme.spacing(2),
+//     },
+//     table: {
+//         minWidth: 750,
+//     },
+//     tableWrapper: {
+//         overflowX: 'auto',
+//     },
+// });
 
 class ListClients extends React.Component {
 
