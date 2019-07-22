@@ -61,7 +61,7 @@ function EnhancedTableHead(props) {
                 {headRows.map(row => (
                     <TableCell
                         key={row.id}
-                        align={row.numeric ? 'right' : 'left'}
+                        align={row.numeric ? 'right' : 'center'}
                         padding={row.disablePadding ? 'none' : 'default'}
                         sortDirection={orderBy === row.id ? order : false}
                     >
@@ -267,6 +267,8 @@ class ListClients extends React.Component {
 
         return (
             <div className={classes.root}>
+                <div> Clients (choose row to edit)</div>
+                <br />
                 <Paper className={classes.paper}>
                     <div className={classes.tableWrapper}>
                         <Table
@@ -302,7 +304,7 @@ class ListClients extends React.Component {
                                                 {idsHeader.map((idHeader, index) => {
                                                     return (
                                                         <TableCell key={index}
-                                                                   align="right">{currentRow[idHeader]}</TableCell>
+                                                                   align="left">{currentRow[idHeader]}</TableCell>
 
                                                     )
                                                 })}

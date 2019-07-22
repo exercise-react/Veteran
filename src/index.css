@@ -33,3 +33,31 @@ width: 400px;
 .sidenav-container {
 
 }
+
+.MuiListItem-root {
+  color: black;
+  text-decoration: none;
+  font-weight: bold !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.MuiListItem-root:hover {
+  color: #61dafb;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.MuiTableCell-root:hover {
+   cursor: pointer !important;
+ }
+
+.MuiTableCell-root {
+  cursor: pointer !important;
+}
+
+.MuiPaper-root {
+  box-shadow: none !important;
+}
+
+

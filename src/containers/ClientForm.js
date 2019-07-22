@@ -131,7 +131,6 @@ class ClientForm extends React.Component {
                             }
                         }
                     })}
-
                     <div>
                         <Button onClick={() => {
                             alert(`

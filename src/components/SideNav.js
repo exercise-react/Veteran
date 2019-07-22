@@ -34,6 +34,7 @@ lists: {
     return (
         <li key={uniqKey}>
             <ListItem component={NavLink}
+                      className='navLink'
                       to={to}
                       {...other}>
                 <ListItemText primary={primary}/>
@@ -131,6 +132,3 @@ export default function SideNav(props)  {
 
 }
 
-SideNav.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
