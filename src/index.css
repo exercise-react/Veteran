@@ -24,7 +24,7 @@ code {
   padding-top: 50px;
   display: flex;
   flex-direction: row;
-
+width: 400px;
 }
 
 .main-container {
