@@ -9,21 +9,23 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import 'typeface-roboto';
-import Typography from "@material-ui/core/Typography";
 
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        minWidth: 300,
-        maxWidth: 300,
+        minWidth: 200,
+        maxWidth: 200,
         backgroundColor: theme.palette.background.paper,
     },
+lists: {
+    backgroundColor: theme.palette.background.paper,
+        marginTop: theme.spacing(1),
+},
     nested: {
-        paddingLeft: theme.spacing(4),
+        paddingLeft: theme.spacing(2),
     },
 }));
-
 
 
  function ListItemLink(props) {
@@ -79,14 +81,14 @@ export default function SideNav(props)  {
                         && Array.isArray(node.subitems)
                         && node.subitems.length > 0) return childrenMapStructure(node);
                     return (
-                        <Typography variant="h6" color="inherit">
+
                         <ListItem key={node.id}
                                   component={RouterLink}
                                   to={node.url}>
                             <ListItemText
                                 primary={node.title}/>
                         </ListItem>
-                        </Typography>
+
                     )
                 });
             }
@@ -115,8 +117,6 @@ export default function SideNav(props)  {
             </List>
         );
 
-
-       // const classes = styles();
 
 
         return (
