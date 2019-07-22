@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {lighten, makeStyles, withStyles} from '@material-ui/core/styles/index';
 import Table from '@material-ui/core/Table/index';
 import TableBody from '@material-ui/core/TableBody/index';
@@ -11,7 +10,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
-
 
 
 function desc(a, b, orderBy) {
@@ -82,15 +80,6 @@ function EnhancedTableHead(props) {
     );
 }
 
-// EnhancedTableHead.propTypes = {
-//     numSelected: PropTypes.number.isRequired,
-//     onRequestSort: PropTypes.func.isRequired,
-//     onSelectAllClick: PropTypes.func.isRequired,
-//     order: PropTypes.string.isRequired,
-//     orderBy: PropTypes.string.isRequired,
-//     rowCount: PropTypes.number.isRequired,
-// };
-
 const useToolbarStyles = makeStyles(theme => ({
     root: {
         paddingLeft: theme.spacing(2),
@@ -155,9 +144,12 @@ class ListClients extends React.Component {
         this.cancelEditRowAction = props.cancelEditRowAction;
         this.addNewClientAction = props.addNewClientAction;
 
-        this.setOrder = (value) => {this.setState(state => ({...state, order: value}))};
+        this.setOrder = (value) => {
+            this.setState(state => ({...state, order: value}))
+        };
         this.setOrderBy = (value) => {
-            this.setState( state =>({...state, orderBy: value}))};
+            this.setState(state => ({...state, orderBy: value}))
+        };
         this.setSelected = (value) => {
             if (this.state.selected === value.ID) {
                 this.setState(state => ({...state, selected: null}));
@@ -170,10 +162,12 @@ class ListClients extends React.Component {
                 this.editRowAction(value)
             }
         };
-        this.setPage = (value) => {this.setState(state => ({...state, page: value}))};
-        this.setRowsPerPage = (value) => {this.setState(state => ({...state, rowsPerPage: value}))};
-
-
+        this.setPage = (value) => {
+            this.setState(state => ({...state, page: value}))
+        };
+        this.setRowsPerPage = (value) => {
+            this.setState(state => ({...state, rowsPerPage: value}))
+        };
 
 
         this.handleChangePage = this.handleChangePage.bind(this);
@@ -183,7 +177,6 @@ class ListClients extends React.Component {
         this.handleClick = this.handleClick.bind(this);
 
     }
-
 
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -196,23 +189,23 @@ class ListClients extends React.Component {
         return false;
     }
 
-     handleChangePage(event, newPage) {
+    handleChangePage(event, newPage) {
         this.setPage(newPage);
     }
 
-     handleChangeRowsPerPage(event) {
+    handleChangeRowsPerPage(event) {
         this.setRowsPerPage(+event.target.value);
         this.setPage(0);
     }
 
 
-     handleRequestSort(event, property) {
+    handleRequestSort(event, property) {
         const isDesc = this.state.orderBy === property && this.state.order === 'desc';
         this.setOrder(isDesc ? 'asc' : 'desc');
         this.setOrderBy(property);
     }
 
-     handleSelectAllClick(event) {
+    handleSelectAllClick(event) {
         if (event.target.checked) {
             const newSelecteds = this.rows.map(n => n.name);
             this.setSelected(newSelecteds);
@@ -221,7 +214,7 @@ class ListClients extends React.Component {
         this.setSelected(null);
     }
 
-     handleClick(row) {
+    handleClick(row) {
 
         if (row) {
             this.setSelected(row);
@@ -238,9 +231,10 @@ class ListClients extends React.Component {
         const classes = styles;
 
         const isSelected = name => {
-            return name && this.state.selected && this.state.selected.indexOf(name) !== -1}
+                return name && this.state.selected && this.state.selected.indexOf(name) !== -1
+            }
         ;
-        const emptyRows =  this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
+        const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
 
         return (
             <div className={classes.root}>
@@ -278,7 +272,8 @@ class ListClients extends React.Component {
                                             >
                                                 {idsHeader.map((idHeader, index) => {
                                                     return (
-                                                        <TableCell key={index} align="right">{currentRow[idHeader]}</TableCell>
+                                                        <TableCell key={index}
+                                                                   align="right">{currentRow[idHeader]}</TableCell>
 
                                                     )
                                                 })}
@@ -323,7 +318,6 @@ const mapDispatchToProps = dispatch => ({
     editRowAction: data => dispatch({type: 'EDIT_SELECTED_CLIENT', payload: data}),
     cancelEditRowAction: () => dispatch({type: 'CANCEL_EDIT_CLIENT'}),
     addNewClientAction: () => dispatch({type: 'ADD_NEW_CLIENT'}),
-
 
 
 });

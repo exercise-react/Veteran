@@ -4,6 +4,7 @@ import ClientForm from './ClientForm';
 import {connect} from "react-redux";
 import loadData from "../services/loadData";
 
+
 const urlClientData = 'http://localhost:3000/clientData';
 const urlClientForm = 'http://localhost:3000/clientform';
 
@@ -33,7 +34,7 @@ class VeteranInformation extends React.Component {
                 <ListClients/>
                 <ClientForm/>
             </>
-            );
+        );
 
         return (
             <>

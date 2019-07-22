@@ -1,11 +1,9 @@
 import React from 'react';
-import { withStyles} from '@material-ui/core/styles/index';
+import {withStyles} from '@material-ui/core/styles/index';
 import TextField from "@material-ui/core/TextField/index";
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
-
-
 
 
 const styles = theme => ({
@@ -40,10 +38,10 @@ class ClientForm extends React.Component {
         this.cancelEditSelectClientAction = props.cancelEditSelectClientAction;
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+    }
 
-    render()
-    {
+    render() {
         const {
             clientForm,
             selectClientID,
@@ -59,7 +57,7 @@ class ClientForm extends React.Component {
 
         const handleChange = name => event => {
 
-            this.editingSelectClientAction({ ...selectClientData, [name]: event.target.value })
+            this.editingSelectClientAction({...selectClientData, [name]: event.target.value})
         };
 
         return (
@@ -72,21 +70,35 @@ class ClientForm extends React.Component {
                                 ? index
                                 : selectClientData[name];
                             if (element.element === 'input') {
+                                if (element.type === 'text') {
+                                    return (
+                                        <TextField key={uniqKey}
+                                                   id="outlined-helperText"
+                                                   label={label}
+                                                   defaultValue={selectClientData[name]}
+                                                   onChange={handleChange(name)}
+                                                   className={classes.textField}
+                                                   helperText={placeholder}
+                                                   margin="normal"
+                                                   variant="outlined"
+                                        />  )
+                                }
+                                if (element.type === 'textarea') {
+                                    return (
+                                        <TextField key={uniqKey}
+                                                   multiline
+                                                   id="outlined-helperText"
+                                                   label={label}
+                                                   defaultValue={selectClientData[name]}
+                                                   onChange={handleChange(name)}
+                                                   className={classes.textField}
+                                                   helperText={placeholder}
+                                                   margin="normal"
+                                                   variant="outlined"
+                                        />)
+                                }
 
-                                return (
-                                    <TextField key={uniqKey}
-                                               id="outlined-helperText"
-                                               label={label}
-                                               defaultValue={selectClientData[name]}
-                                               onChange={handleChange(name)}
-                                               className={classes.textField}
-                                               helperText={placeholder}
-                                               margin="normal"
-                                               variant="outlined"
-                                    />
-                                )
                             }
-                            ;
                             if (element.element === 'select') {
                                 const {items} = element;
 

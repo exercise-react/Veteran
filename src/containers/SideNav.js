@@ -12,10 +12,9 @@ import {connect} from 'react-redux';
 import loadData from '../services/loadData';
 
 
-
 const url = 'http://localhost:3000/navigation';
 
-const styles  =theme => ({
+const styles = theme => ({
     root: {
         width: '100%',
         maxWidth: 360,
@@ -25,8 +24,6 @@ const styles  =theme => ({
         paddingLeft: theme.spacing(4),
     },
 });
-
-
 
 
 function ListItemLink(props) {
@@ -50,12 +47,12 @@ ListItemLink.propTypes = {
 };
 
 
-
 class SideNav extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {open: true,
+        this.state = {
+            open: true,
         };
         this.loadDataAction = props.loadDataAction;
 
@@ -82,7 +79,6 @@ class SideNav extends React.Component {
     render() {
 
 
-
         const {
             navigation
         } = this.props;
@@ -92,7 +88,7 @@ class SideNav extends React.Component {
         }
 
         const navigationMap = Array.isArray(navigation)
-            && navigation.length > 0
+        && navigation.length > 0
             ? navigation
             : [];
 
