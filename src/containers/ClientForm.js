@@ -40,29 +40,7 @@ class ClientForm extends React.Component {
         this.cancelEditSelectClientAction = props.cancelEditSelectClientAction;
     }
 
-    componentDidMount() {
-
-    }
-
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     console.warn('this.props.selectClient.ID', this.props.selectClient.ID)
-    //     console.warn('nextProps.selectClient.ID', nextProps.selectClient.ID)
-    //     if (this.props.selectClient.ID !== nextProps.selectClient.ID) {
-    //         return true;
-    //     }
-    //     if (this.state !== nextState) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // handleChange  (event) {
-    //
-    //     console.warn('event', event)
-    //
-    // };
-
-
+    componentDidMount() {}
 
     render()
     {
@@ -71,7 +49,6 @@ class ClientForm extends React.Component {
             selectClientID,
             selectClientData,
         } = this.props;
-        console.warn('selectClientData', selectClientData)
 
         const dataClientForm = Array.isArray(clientForm)
         && clientForm.length > 0
@@ -81,8 +58,6 @@ class ClientForm extends React.Component {
         const classes = styles;
 
         const handleChange = name => event => {
-            console.warn('name', name)
-            console.warn('event', event.target.value);
 
             this.editingSelectClientAction({ ...selectClientData, [name]: event.target.value })
         };
@@ -90,54 +65,58 @@ class ClientForm extends React.Component {
         return (
             <>
                 <div className={classes.container}>
-                    {dataClientForm.map(element => {
-                        if ('element' in element && element.element)
+                    {dataClientForm.map((element, index) => {
+                        if ('element' in element && element.element) {
+                            const {label, placeholder, name} = element;
+                            const uniqKey = selectClientData[name] === ''
+                                ? index
+                                : selectClientData[name];
                             if (element.element === 'input') {
-                                const {label, placeholder, name} = element;
-                                console.warn('name', name);
-                                console.warn('selectClientData[name]', selectClientData[name])
+
                                 return (
-                                    <TextField key={selectClientData[name]}
-                                        id="outlined-helperText"
-                                        label={label}
-                                        defaultValue={selectClientData[name]}
-                                        onChange={handleChange(name)}
-                                        className={classes.textField}
-                                        helperText={placeholder}
-                                        margin="normal"
-                                        variant="outlined"
+                                    <TextField key={uniqKey}
+                                               id="outlined-helperText"
+                                               label={label}
+                                               defaultValue={selectClientData[name]}
+                                               onChange={handleChange(name)}
+                                               className={classes.textField}
+                                               helperText={placeholder}
+                                               margin="normal"
+                                               variant="outlined"
                                     />
                                 )
                             }
-                        ;
-                        if (element.element === 'select') {
-                            const {items, label, placeholder, name} = element;
-                            return (
-                                <TextField key={selectClientData[name]}
-                                    id="outlined-select-currency-native"
-                                    select
-                                    label={label}
-                                    className={classes.textField}
-                                    value={selectClientData[name]}
-                                    onChange={handleChange(name)}
-                                    SelectProps={{
-                                        MenuProps: {
-                                            className: classes.menu,
-                                        },
-                                    }}
-                                    helperText={placeholder}
-                                    margin="normal"
-                                    variant="outlined"
-                                >
+                            ;
+                            if (element.element === 'select') {
+                                const {items} = element;
 
-                                    {items.map(option => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))}
-                                </TextField>
-                            )
-                        };
+                                return (
+                                    <TextField key={uniqKey}
+                                               id="outlined-select-currency-native"
+                                               select
+                                               label={label}
+                                               className={classes.textField}
+                                               value={selectClientData[name]}
+                                               onChange={handleChange(name)}
+                                               SelectProps={{
+                                                   MenuProps: {
+                                                       className: classes.menu,
+                                                   },
+                                               }}
+                                               helperText={placeholder}
+                                               margin="normal"
+                                               variant="outlined"
+                                    >
+
+                                        {items.map(option => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                )
+                            }
+                        }
                     })}
 
                     <div>

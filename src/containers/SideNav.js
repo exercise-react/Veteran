@@ -8,8 +8,6 @@ import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-
 import {connect} from 'react-redux';
 import loadData from '../services/loadData';
 

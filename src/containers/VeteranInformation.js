@@ -26,27 +26,8 @@ class VeteranInformation extends React.Component {
         this.loadDataAction(urlClientForm, 'LOAD_DATA_CLIENT_FORM_COMPLETE');
     }
 
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     //     console.warn('this.props.selectClientID', this.props.selectClientID);
-    //     //     console.warn('nextProps.selectClientID', nextProps.selectClientID)
-    //     //     if (this.props.selectClientID
-    //     //         && nextProps.selectClientID) {
-    //     //         console.warn('this.props.selectClient.ID', this.props.selectClientID)
-    //     //         console.warn('nextProps.selectClient.ID', nextProps.selectClientID)
-    //     //         if (this.props.selectClientID !== nextProps.selectClientID) {
-    //     //             return true;
-    //     //         }
-    //     //     }
-    //     //
-    //     //     if (this.state !== nextState) {
-    //     //         return true;
-    //     //     }
-    //     //     return false;
-    //     // }
-
     render() {
         const dataClient = this.props.selectClientID;
-        console.warn('dataClient', dataClient)
         if (dataClient) return (
             <>
                 <ListClients/>
