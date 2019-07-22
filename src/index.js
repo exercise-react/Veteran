@@ -22,15 +22,17 @@ const store = createStore(rootReducer, applyMiddleware(...middleware));
 
 
 ReactDOM.render(
-    <Provider store={store}>
+    <>
+
         <ThemeProvider theme={theme}>
-            <CssBaseline>
+            <CssBaseline/>
             <BrowserRouter>
-                <App/>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </BrowserRouter>
-            </CssBaseline>
         </ThemeProvider>
-    </Provider>, document.getElementById('root'));
+    </>, document.getElementById('root'));
 
 
 // If you want your app to work offline and load faster, you can change
