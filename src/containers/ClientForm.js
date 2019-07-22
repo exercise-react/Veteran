@@ -71,6 +71,7 @@ class ClientForm extends React.Component {
             selectClientID,
             selectClientData,
         } = this.props;
+        console.warn('selectClientData', selectClientData)
 
         const dataClientForm = Array.isArray(clientForm)
         && clientForm.length > 0
@@ -93,8 +94,10 @@ class ClientForm extends React.Component {
                         if ('element' in element && element.element)
                             if (element.element === 'input') {
                                 const {label, placeholder, name} = element;
+                                console.warn('name', name);
+                                console.warn('selectClientData[name]', selectClientData[name])
                                 return (
-                                    <TextField
+                                    <TextField key={selectClientData[name]}
                                         id="outlined-helperText"
                                         label={label}
                                         defaultValue={selectClientData[name]}
@@ -110,7 +113,7 @@ class ClientForm extends React.Component {
                         if (element.element === 'select') {
                             const {items, label, placeholder, name} = element;
                             return (
-                                <TextField
+                                <TextField key={selectClientData[name]}
                                     id="outlined-select-currency-native"
                                     select
                                     label={label}

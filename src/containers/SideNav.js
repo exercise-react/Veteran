@@ -8,24 +8,27 @@ import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import {Link as RouterLink, NavLink} from 'react-router-dom';
-import {createMuiTheme} from '@material-ui/core/styles/index';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
+import { makeStyles } from '@material-ui/core/styles';
+
 import {connect} from 'react-redux';
 import loadData from '../services/loadData';
 
 
+
 const url = 'http://localhost:3000/navigation';
 
-const theme = createMuiTheme({
-    palette: {
-        primary: purple,
-        secondary: green,
+const styles  =theme => ({
+    root: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
     },
-    status: {
-        danger: 'orange',
+    nested: {
+        paddingLeft: theme.spacing(4),
     },
 });
+
+
 
 
 function ListItemLink(props) {
@@ -48,28 +51,14 @@ ListItemLink.propTypes = {
     to: PropTypes.string.isRequired,
 };
 
-const styles = theme => {
-    return ({
-        root: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: 260,
-        },
-        lists: {
-            backgroundColor: theme.palette.background.paper,
-            marginTop: theme.spacing(1),
-        },
-        nested: {
-            paddingLeft: theme.spacing(4),
-        },
-    })
-};
+
 
 class SideNav extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {open: true};
+        this.state = {open: true,
+        };
         this.loadDataAction = props.loadDataAction;
 
     }
@@ -93,6 +82,9 @@ class SideNav extends React.Component {
     };
 
     render() {
+
+
+
         const {
             navigation
         } = this.props;
@@ -149,7 +141,7 @@ class SideNav extends React.Component {
         );
 
 
-        const {classes} = this.props;
+        const classes = styles;
 
         return (
             <div className={classes.root}>

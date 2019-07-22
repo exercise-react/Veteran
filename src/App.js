@@ -6,13 +6,13 @@ import theme from './theme';
 import './App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {BrowserRouter} from "react-router-dom";
-import { ThemeProvider } from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/styles';
 
 
 function App() {
     return (
         <BrowserRouter>
-            <ThemeProvider  theme={theme}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <div className='head-container'>
                     <Header className='header-container'/>
@@ -21,7 +21,7 @@ function App() {
                         <Main className='main-container'/>
                     </div>
                 </div>
-            </ThemeProvider >
+            </ThemeProvider>
         </BrowserRouter>
     );
 }
