@@ -17,7 +17,9 @@ const useStyles = makeStyles(theme => ({
         minWidth: 200,
         maxWidth: 200,
         backgroundColor: theme.palette.background.paper,
+
     },
+
 lists: {
     backgroundColor: theme.palette.background.paper,
         marginTop: theme.spacing(1),

@@ -45,15 +45,14 @@ class ClientForm extends React.Component {
         const {
             clientForm,
             selectClientData,
-            addNewClient
+            addNewClient,
+            classes,
         } = this.props;
 
         const dataClientForm = Array.isArray(clientForm)
         && clientForm.length > 0
             ? clientForm
             : [];
-
-        const classes = styles;
 
         const handleChange = name => event => {
 

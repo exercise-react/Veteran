@@ -28,6 +28,7 @@ class VeteranInformation extends React.Component {
     }
 
     render() {
+     
         const dataClient = this.props.selectClientID;
         if (dataClient) return (
             <div className='veteranInfo-container'>

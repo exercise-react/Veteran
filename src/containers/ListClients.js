@@ -9,6 +9,43 @@ import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
+import {red} from "@material-ui/core/colors";
+
+
+const styles = theme => ({
+    root: {
+        paddingLeft: theme.spacing(2),
+        paddingRight: theme.spacing(1),
+
+    },
+    paper: {
+        width: '100%',
+        marginBottom: theme.spacing(2),
+
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    highlight:
+        theme.palette.type === 'light'
+            ? {
+                color: theme.palette.secondary.main,
+                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+            }
+            : {
+                color: theme.palette.text.primary,
+                backgroundColor: theme.palette.secondary.dark,
+            },
+    spacer: {
+        flex: '1 1 100%',
+    },
+    actions: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        flex: '0 0 auto',
+    },
+});
 
 
 function desc(a, b, orderBy) {
@@ -108,34 +145,7 @@ function EnhancedTableHead(props) {
 // }));
 
 
-const styles = theme => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-    },
-    button: {
-        margin: theme.spacing(1),
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    spacer: {
-        flex: '1 1 100%',
-    },
-    actions: {
-        color: theme.palette.text.secondary,
-    },
-    title: {
-        flex: '0 0 auto',
-    },
-});
+
 
 
 // const styles = theme => ({
@@ -241,11 +251,11 @@ class ListClients extends React.Component {
 
 
     render() {
+        const { classes } = this.props;
         const rows = Array.isArray(this.props.clientData) && this.props.clientData.length > 0
             ? this.props.clientData
             : [];
 
-        const classes = styles;
 
         const isSelected = name => {
                 return name && this.state.selected && this.state.selected.indexOf(name) !== -1
@@ -254,7 +264,7 @@ class ListClients extends React.Component {
         const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
 
         return (
-                <div className={classes.root}>
+                <div className={classes.root}>`
                     <br/>
                     <div> Clients (choose row to edit)</div>
                     <br/>
@@ -334,6 +344,7 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(withStyles(styles)(ListClients));
+
 
 /*
 
