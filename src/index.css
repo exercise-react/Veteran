@@ -62,7 +62,7 @@ code {
 .clientForm-container {
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 330px;
 }
 
 .button-container {
@@ -75,7 +75,7 @@ code {
 }
 
 
-.ListClients-root-4{
+.ListClients-root-4 {
     padding-left: 0;
 }
 
@@ -108,15 +108,18 @@ code {
     box-shadow: none !important;
 }
 
-.MuiButtonBase-root {
-    margin-right: 70px !important;
-
-}
-
 .veteranInfo-container {
     display: flex;
     flex-direction: column;
 }
 
 
+.ListClients-button-7 {
+    padding: 0;
+    margin: 0;
+}
+
+.MuiTablePagination-caption {
+
+}
 

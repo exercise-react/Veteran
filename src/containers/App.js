@@ -3,7 +3,6 @@ import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import Main from '../components/Main';
 import theme from '../theme';
-import '../App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {ThemeProvider} from '@material-ui/styles';
 import loadData from "../services/loadData";

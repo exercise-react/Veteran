@@ -4,6 +4,11 @@ import TextField from "@material-ui/core/TextField/index";
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
 import MenuItem from "@material-ui/core/MenuItem";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
 
 
 const styles = theme => ({
@@ -28,18 +33,33 @@ const styles = theme => ({
 });
 
 
-class ClientForm extends React.Component {
+class ClientForm extends React.PureComponent {
 
     constructor(props) {
         super(props);
+
+        this.state = {open: false};
 
         this.loadDataAction = props.loadDataAction;
         this.editingSelectClientAction = props.editingSelectClientAction;
         this.saveSelectClientAction = props.saveSelectClientAction;
         this.cancelEditSelectClientAction = props.cancelEditSelectClientAction;
+
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this)
     }
 
     componentDidMount() {
+    }
+
+    handleClickOpen() {
+        this.setState({open: true});
+    };
+
+    handleClose() {
+        this.setState({open: false}, function () {
+        });
+        this.saveSelectClientAction();
     }
 
     render() {
@@ -59,6 +79,7 @@ class ClientForm extends React.Component {
 
             this.editingSelectClientAction({...selectClientData, [name]: event.target.value})
         };
+
 
         return (
             <div className='clientForm-container'>
@@ -82,7 +103,7 @@ class ClientForm extends React.Component {
                                                helperText={placeholder}
                                                margin="normal"
                                                variant="outlined"
-                                               required = {required}
+                                               required={required}
                                     />)
                             }
                             if (element.type === 'textarea') {
@@ -97,8 +118,7 @@ class ClientForm extends React.Component {
                                                helperText={placeholder}
                                                margin="normal"
                                                variant="outlined"
-                                               required = {required}
-                                    />)
+                                               required={required}/>)
                             }
 
                         }
@@ -121,15 +141,14 @@ class ClientForm extends React.Component {
                                            helperText={placeholder}
                                            margin="normal"
                                            variant="outlined"
-                                           required = {required}
-                                >
+                                           required={required}>
 
                                     {
                                         items.map(option => (
-                                        <MenuItem key={option.value} value={option.value}>
-                                            {option.label}
-                                        </MenuItem>
-                                    ))
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))
                                     }
                                 </TextField>
                             )
@@ -138,19 +157,7 @@ class ClientForm extends React.Component {
                     return (<></>)
                 })}
                 <div className='button-container'>
-                    <Button onClick={() => {
-                        alert(`
-                            FirstName: ${selectClientData.FirstName}
-                            LastName: ${selectClientData.LastName}
-                            CityBirth: ${selectClientData.CityBirth}
-                            StateBirth: ${selectClientData.StateBirth}
-                            Branch: ${selectClientData.Branch}
-                            Rank: ${selectClientData.Rank}
-                            Discharge: ${selectClientData.Discharge}
-                            Comments: ${selectClientData.Comments}`);
-
-                        return this.saveSelectClientAction()
-                    }}
+                    <Button onClick={this.handleClickOpen}
                             variant="contained"
                             color="primary"
                             className={classes.button}>
@@ -162,6 +169,31 @@ class ClientForm extends React.Component {
                             className='button-cancel'>
                         Cancel
                     </Button>
+                    <Dialog
+                        open={this.state.open}
+                        onClose={this.handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">{"Clients data:"}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                                FirstName: {selectClientData.FirstName} <br/>
+                                LastName: {selectClientData.LastName}<br/>
+                                CityBirth: {selectClientData.CityBirth}<br/>
+                                StateBirth: {selectClientData.StateBirth}<br/>
+                                Branch: {selectClientData.Branch}<br/>
+                                Rank: {selectClientData.Rank}<br/>
+                                Discharge: {selectClientData.Discharge}<br/>
+                                Comments: {selectClientData.Comments}<br/>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={this.handleClose} color="primary" autoFocus>
+                                Agree and save
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
                 </div>
             </div>
         )

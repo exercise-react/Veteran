@@ -9,6 +9,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
+import TablePagination from "@material-ui/core/TablePagination";
 
 
 const styles = theme => ({
@@ -21,6 +22,9 @@ const styles = theme => ({
         width: '100%',
         marginBottom: theme.spacing(2),
 
+    },
+    tableRow: {
+        cursor: 'pointer',
     },
     button: {
         margin: theme.spacing(1),
@@ -99,14 +103,12 @@ function EnhancedTableHead(props) {
     return (
         <TableHead>
             <TableRow>
-
                 {headRows.map(row => (
                     <TableCell
                         key={row.id}
                         align={row.numeric ? 'right' : 'center'}
                         padding={row.disablePadding ? 'none' : 'default'}
-                        sortDirection={orderBy === row.id ? order : false}
-                    >
+                        sortDirection={orderBy === row.id ? order : false}>
                         <TableSortLabel
                             active={orderBy === row.id}
                             direction={order}
@@ -120,55 +122,6 @@ function EnhancedTableHead(props) {
     );
 }
 
-// const useToolbarStyles = makeStyles(theme => ({
-//     root: {
-//         paddingLeft: theme.spacing(2),
-//         paddingRight: theme.spacing(1),
-//     },
-//     button: {
-//         margin: theme.spacing(1),
-//     },
-//     highlight:
-//         theme.palette.type === 'light'
-//             ? {
-//                 color: theme.palette.secondary.main,
-//                 backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-//             }
-//             : {
-//                 color: theme.palette.text.primary,
-//                 backgroundColor: theme.palette.secondary.dark,
-//             },
-//     spacer: {
-//         flex: '1 1 100%',
-//     },
-//     actions: {
-//         color: theme.palette.text.secondary,
-//     },
-//     title: {
-//         flex: '0 0 auto',
-//     },
-// }));
-
-
-
-
-
-// const styles = theme => ({
-//     root: {
-//         width: '100%',
-//         marginTop: theme.spacing(3),
-//     },
-//     paper: {
-//         width: '100%',
-//         marginBottom: theme.spacing(2),
-//     },
-//     table: {
-//         minWidth: 750,
-//     },
-//     tableWrapper: {
-//         overflowX: 'auto',
-//     },
-// });
 
 class ListClients extends React.Component {
 
@@ -179,7 +132,7 @@ class ListClients extends React.Component {
             orderBy: '',
             selected: null,
             page: 0,
-            rowsPerPage: 5,
+            rowsPerPage: 4,
         };
 
         this.selectRowAction = props.selectRowAction;
@@ -212,13 +165,11 @@ class ListClients extends React.Component {
             this.setState(state => ({...state, rowsPerPage: value}))
         };
 
-
         this.handleChangePage = this.handleChangePage.bind(this);
         this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this);
         this.handleRequestSort = this.handleRequestSort.bind(this);
         this.handleSelectAllClick = this.handleSelectAllClick.bind(this);
         this.handleClick = this.handleClick.bind(this);
-
     }
 
     handleChangePage(event, newPage) {
@@ -239,15 +190,14 @@ class ListClients extends React.Component {
 
     handleSelectAllClick(event) {
         if (event.target.checked) {
-            const newSelecteds = this.rows.map(n => n.name);
-            this.setSelected(newSelecteds);
+            const newSelects = this.rows.map(n => n.name);
+            this.setSelected(newSelects);
             return;
         }
         this.setSelected(null);
     }
 
     handleClick(row) {
-
         if (row) {
             this.setSelected(row);
         }
@@ -256,7 +206,7 @@ class ListClients extends React.Component {
 
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         const rows = Array.isArray(this.props.clientData) && this.props.clientData.length > 0
             ? this.props.clientData
             : [];
@@ -270,66 +220,79 @@ class ListClients extends React.Component {
             rows.length - this.state.page * this.state.rowsPerPage);
 
         return (
-                <div className={classes.root}>`
-                    <br/>
-                    <div >
-                        <span className='text-bold'>Clients</span> (Choose row to edit)</div>
-                    <br/>
-                    <Paper className={classes.paper}>
-                        <div className={classes.tableWrapper}>
-                            <Table
-                                className={classes.table}
-                                aria-labelledby="tableTitle"
-                                size={'medium'}>
-                                <EnhancedTableHead
-                                    // numSelected={this.state.selected.length}
-                                    order={this.state.order}
-                                    orderBy={this.state.orderBy}
-                                    onSelectAllClick={this.handleSelectAllClick}
-                                    onRequestSort={this.handleRequestSort}
-                                    rowCount={rows.length}
-                                />
-                                <TableBody>
-                                    {stableSort(rows, getSorting(this.state.order, this.state.orderBy))
-                                        .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
-                                        .map(currentRow => {
-                                            const isItemSelected = isSelected(currentRow.ID);
-
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    onClick={() => this.handleClick(currentRow)}
-                                                    role="checkbox"
-                                                    aria-checked={isItemSelected}
-                                                    tabIndex={-1}
-                                                    key={currentRow.ID}
-                                                    selected={isItemSelected}
-                                                >
-                                                    {idsHeader.map((idHeader, index) => {
-                                                        return (
-                                                            <TableCell key={index} align="left">
-                                                                {currentRow[idHeader]}</TableCell>
-
-                                                        )
-                                                    })}
-                                                </TableRow>
-                                            );
-                                        })}
-                                    {emptyRows > 0 && (
-                                        <TableRow style={{height: 49 * emptyRows}}>
-                                            <TableCell colSpan={6}/>
-                                        </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                            <Button className={classes.button}
-                                    onClick={() => this.addNewClientAction()}>
-                                +New</Button>
-
-                        </div>
-
-                    </Paper>
+            <div className={classes.root}>`
+                <br/>
+                <div>
+                    <span className='text-bold'>Clients</span> (Choose row to edit)
                 </div>
+                <br/>
+                <Paper className={classes.paper}>
+                    <div className={classes.tableWrapper}>
+                        <Table
+                            className={classes.table}
+                            aria-labelledby="tableTitle"
+                            size={'medium'}>
+                            <EnhancedTableHead
+                                // numSelected={this.state.selected.length}
+                                order={this.state.order}
+                                orderBy={this.state.orderBy}
+                                onSelectAllClick={this.handleSelectAllClick}
+                                onRequestSort={this.handleRequestSort}
+                                rowCount={rows.length}/>
+                            <TableBody>
+                                {stableSort(rows, getSorting(this.state.order, this.state.orderBy))
+                                    .slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+                                    .map(currentRow => {
+                                        const isItemSelected = isSelected(currentRow.ID);
+
+                                        return (
+                                            <TableRow
+                                                hover
+                                                onClick={() => this.handleClick(currentRow)}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={currentRow.ID}
+                                                selected={isItemSelected}>
+                                                {idsHeader.map((idHeader, index) => {
+                                                    return (
+                                                        <TableCell key={index} align="left">
+                                                            {currentRow[idHeader]}</TableCell>
+                                                    )
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })}
+                                {emptyRows > 0 && (
+                                    <TableRow style={{height: 49 * emptyRows}}>
+                                        <TableCell colSpan={6}/>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+
+                        <TablePagination
+                            rowsPerPageOptions={[5]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={this.state.rowsPerPage}
+                            page={this.state.page}
+                            backIconButtonProps={{
+                                'aria-label': 'Previous Page',
+                            }}
+                            nextIconButtonProps={{
+                                'aria-label': 'Next Page',
+                            }}
+                            onChangePage={this.handleChangePage}
+                            onChangeRowsPerPage={this.handleChangeRowsPerPage}/>
+
+                        <Button className={classes.button}
+                                onClick={() => this.addNewClientAction()}>
+                            +New</Button>
+                    </div>
+
+                </Paper>
+            </div>
         );
     }
 }
@@ -351,24 +314,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(withStyles(styles)(ListClients));
-
-
-/*
-
-<TablePagination
-    rowsPerPageOptions={[5, 10, 25]}
-    component="div"
-    count={rows.length}
-    rowsPerPage={this.state.rowsPerPage}
-    page={this.state.page}
-    backIconButtonProps={{
-        'aria-label': 'Previous Page',
-    }}
-    nextIconButtonProps={{
-        'aria-label': 'Next Page',
-    }}
-    onChangePage={this.handleChangePage}
-    onChangeRowsPerPage={this.handleChangeRowsPerPage}
-/>
-
-*/
