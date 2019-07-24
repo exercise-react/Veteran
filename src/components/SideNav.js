@@ -6,7 +6,7 @@ import Collapse from '@material-ui/core/Collapse/index';
 import ListItemText from '@material-ui/core/ListItemText/index';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import {Link as RouterLink, NavLink} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import 'typeface-roboto';
 
@@ -14,10 +14,8 @@ import 'typeface-roboto';
 const useStyles = makeStyles(theme => ({
     root: {
         width: '100%',
-        minWidth: 200,
-        maxWidth: 200,
-        backgroundColor: theme.palette.background.paper,
-
+        minWidth: 300,
+        maxWidth: 300,
     },
 
 lists: {
@@ -35,7 +33,7 @@ lists: {
 
     return (
         <li key={uniqKey}>
-            <ListItem component={NavLink}
+            <ListItem component='a'
                       className='navLink'
                       to={to}
                       {...other}>

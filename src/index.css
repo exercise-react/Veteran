@@ -24,16 +24,31 @@ code {
 
     display: flex;
     flex-direction: row;
-    width: 350px;
+    min-height: 100vh;
+
 }
 
 .main-container {
+    display: flex;
+}
 
+.home-container {
+    padding-top: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.veteranInfo-container {
+
+}
+
+.text-bold {
+    font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .makeStyles-root-1 {
     margin-right: 100px;
-    background-color: gainsboro !important;
 }
 
 .makeStyles-lists-2, .MuiList-root {
@@ -47,10 +62,22 @@ code {
 .clientForm-container {
     display: flex;
     flex-direction: column;
+    width: 350px;
+}
+
+.button-container {
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+.button-cancel {
+    padding-left: 20px;
 }
 
 
-/*
+.ListClients-root-4{
+    padding-left: 0;
+}
 
 .MuiListItem-root {
     color: black;
@@ -58,6 +85,7 @@ code {
     font-weight: bold !important;
     padding-top: 5px !important;
     padding-bottom: 5px !important;
+    cursor: pointer !important;
 }
 
 .MuiListItem-root:hover {
@@ -81,7 +109,7 @@ code {
 }
 
 .MuiButtonBase-root {
-    margin-right: 30px !important;
+    margin-right: 70px !important;
 
 }
 
@@ -90,5 +118,5 @@ code {
     flex-direction: column;
 }
 
-*/
+
 

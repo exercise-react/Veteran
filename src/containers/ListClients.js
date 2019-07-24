@@ -9,7 +9,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel/index';
 import Paper from '@material-ui/core/Paper/index';
 import Button from "@material-ui/core/Button/index";
 import {connect} from "react-redux";
-import {red} from "@material-ui/core/colors";
 
 
 const styles = theme => ({
@@ -44,6 +43,12 @@ const styles = theme => ({
     },
     title: {
         flex: '0 0 auto',
+    },
+    table: {
+        minWidth: 750,
+    },
+    tableWrapper: {
+        overflowX: 'auto',
     },
 });
 
@@ -261,12 +266,14 @@ class ListClients extends React.Component {
                 return name && this.state.selected && this.state.selected.indexOf(name) !== -1
             }
         ;
-        const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, rows.length - this.state.page * this.state.rowsPerPage)
+        const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage,
+            rows.length - this.state.page * this.state.rowsPerPage);
 
         return (
                 <div className={classes.root}>`
                     <br/>
-                    <div> Clients (choose row to edit)</div>
+                    <div >
+                        <span className='text-bold'>Clients</span> (Choose row to edit)</div>
                     <br/>
                     <Paper className={classes.paper}>
                         <div className={classes.tableWrapper}>
@@ -291,7 +298,7 @@ class ListClients extends React.Component {
                                             return (
                                                 <TableRow
                                                     hover
-                                                    onClick={event => this.handleClick(currentRow)}
+                                                    onClick={() => this.handleClick(currentRow)}
                                                     role="checkbox"
                                                     aria-checked={isItemSelected}
                                                     tabIndex={-1}

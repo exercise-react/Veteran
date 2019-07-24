@@ -158,7 +158,7 @@ export const data = {
         "Comments": "This is a third veteran for testing data."
     }
 ]
-}
+};
 
 
 

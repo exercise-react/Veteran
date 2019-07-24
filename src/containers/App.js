@@ -5,16 +5,18 @@ import Main from '../components/Main';
 import theme from '../theme';
 import '../App.css';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import {BrowserRouter} from "react-router-dom";
 import {ThemeProvider} from '@material-ui/styles';
 import loadData from "../services/loadData";
 import {connect} from "react-redux";
+import {Router} from "react-router";
+import {createBrowserHistory} from 'history'
+import 'typeface-roboto';
 
 
-
+const browserHistory = createBrowserHistory();
 const url = 'http://localhost:3000/navigation';
 
-class App extends React.Component  {
+class App extends React.Component {
 
     constructor(props) {
         super(props);
@@ -33,10 +35,8 @@ class App extends React.Component  {
         if (this.props !== nextProps) {
             return true;
         }
-        if (this.state !== nextState) {
-            return true;
-        }
-        return false;
+        return this.state !== nextState;
+
     }
 
     render() {
@@ -44,7 +44,7 @@ class App extends React.Component  {
             navigation
         } = this.props;
         return (
-            <BrowserRouter>
+            <Router history={browserHistory}>
                 <ThemeProvider theme={theme}>
                     <CssBaseline/>
                     <div className='head-container'>
@@ -56,7 +56,7 @@ class App extends React.Component  {
                         </div>
                     </div>
                 </ThemeProvider>
-            </BrowserRouter>
+            </Router>
         );
     }
 }

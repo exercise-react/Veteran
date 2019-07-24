@@ -16,6 +16,12 @@ const styles = theme => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
     },
+    button: {
+        marginRight: theme.spacing(7),
+    },
+    containerButton: {
+        marginTop: theme.spacing(2),
+    },
     formControl: {
         margin: theme.spacing(1),
     },
@@ -26,12 +32,7 @@ class ClientForm extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            name: 'Cat in the Hat',
-            age: '',
-            multiline: 'Controlled',
-            items: 'EUR',
-        };
+
         this.loadDataAction = props.loadDataAction;
         this.editingSelectClientAction = props.editingSelectClientAction;
         this.saveSelectClientAction = props.saveSelectClientAction;
@@ -61,12 +62,14 @@ class ClientForm extends React.Component {
 
         return (
             <div className='clientForm-container'>
+                <div className='text-bold'> Client Form</div>
                 {dataClientForm.map((element, index) => {
                     if ('element' in element && element.element) {
-                        const {label, placeholder, name} = element;
+                        const {label, placeholder, name, required} = element;
                         const uniqKey = addNewClient
                             ? index
                             : selectClientData[name];
+                        console.warn('uniqKey', uniqKey);
                         if (element.element === 'input') {
                             if (element.type === 'text') {
                                 return (
@@ -79,6 +82,7 @@ class ClientForm extends React.Component {
                                                helperText={placeholder}
                                                margin="normal"
                                                variant="outlined"
+                                               required = {required}
                                     />)
                             }
                             if (element.type === 'textarea') {
@@ -93,6 +97,7 @@ class ClientForm extends React.Component {
                                                helperText={placeholder}
                                                margin="normal"
                                                variant="outlined"
+                                               required = {required}
                                     />)
                             }
 
@@ -116,20 +121,24 @@ class ClientForm extends React.Component {
                                            helperText={placeholder}
                                            margin="normal"
                                            variant="outlined"
+                                           required = {required}
                                 >
 
-                                    {items.map(option => (
+                                    {
+                                        items.map(option => (
                                         <MenuItem key={option.value} value={option.value}>
                                             {option.label}
                                         </MenuItem>
-                                    ))}
+                                    ))
+                                    }
                                 </TextField>
                             )
                         }
                     }
+                    return (<></>)
                 })}
-                <div>
-                    <Button className='buttonSave' onClick={() => {
+                <div className='button-container'>
+                    <Button onClick={() => {
                         alert(`
                             FirstName: ${selectClientData.FirstName}
                             LastName: ${selectClientData.LastName}
@@ -150,7 +159,7 @@ class ClientForm extends React.Component {
 
                     <Button onClick={() => this.cancelEditSelectClientAction()}
                             variant="contained"
-                            className={classes.button}>
+                            className='button-cancel'>
                         Cancel
                     </Button>
                 </div>
