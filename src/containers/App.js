@@ -23,7 +23,6 @@ class App extends React.Component {
             open: true,
         };
         this.loadDataAction = props.loadDataAction;
-
     }
 
     componentDidMount() {
